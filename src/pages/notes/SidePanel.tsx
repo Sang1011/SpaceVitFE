@@ -58,7 +58,7 @@ export function SidePanel({ noteTitle }: { noteTitle: string }) {
         <Block title="Task đã gắn kết" count={<Badge tone="primary" shape="circle" size="xs" mono className="h-4 w-4">1</Badge>}>
           <div className="flex flex-col gap-1.5 rounded-lg bg-surface-variant/50 p-2.5">
             <div className="flex items-center justify-between">
-              <span className="flex items-center gap-1 rounded-full bg-priority-high/10 px-2 py-0.5 font-caption text-caption text-[10px] font-semibold text-priority-high"><PriorityDot level="high" size="sm" /> High</span>
+              <span className="flex items-center gap-1 rounded-full bg-priority-high/10 px-2 py-0.5 font-caption text-caption text-[10px] font-semibold text-status-warning-text"><PriorityDot level="high" size="sm" /> High</span>
               <span className="font-label-mono text-label-mono text-[10px] text-text-secondary">{d.task.code}</span>
             </div>
             <p className="line-clamp-2 font-body-medium text-body-medium text-[12px] font-medium text-text-primary">{d.task.title}</p>

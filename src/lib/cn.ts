@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { extendTailwindMerge } from 'tailwind-merge'
+import colorNames from '../theme/color-names.json'
 
 // Custom design-token names that tailwind-merge cannot infer on its own.
 const fontSizes = [
@@ -10,15 +11,8 @@ const spacing = [
   'margin', 'space-lg', 'gutter', 'space-sm', 'space-xs', 'margin-mobile', 'space-xl',
   'space-md', 'gutter-dense',
 ]
-const colors = [
-  'background', 'surface', 'surface-bright', 'surface-variant', 'surface-container-low',
-  'surface-container', 'surface-container-high', 'border', 'text-primary', 'text-secondary',
-  'primary', 'primary-container', 'brand', 'on-primary', 'primary-fixed', 'secondary',
-  'secondary-fixed', 'ai-accent', 'ai-container', 'tertiary', 'tertiary-container',
-  'tertiary-fixed', 'error', 'error-container', 'status-success', 'status-warning',
-  'status-error', 'recording-red', 'priority-urgent', 'priority-high', 'priority-medium',
-  'priority-low',
-]
+// Cùng một danh sách với tailwind.config.ts; không tự khai báo lại để tránh lệch nhau.
+const colors = colorNames as string[]
 
 const twMerge = extendTailwindMerge({
   extend: {

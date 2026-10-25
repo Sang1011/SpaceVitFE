@@ -13,7 +13,7 @@ export function UserBubble({ text, time, initials }: { text: string; time: strin
     <div className="ml-auto flex max-w-3xl items-start justify-end gap-3">
       <div className="rounded-2xl rounded-tr-sm bg-primary-container px-4 py-3 font-body-default text-body-default text-on-primary shadow-sm">
         <p>{text}</p>
-        <div className="mt-1.5 text-right font-label-mono text-[10px] text-on-primary/70">{time} · Bạn</div>
+        <div className="mt-1.5 text-right font-label-mono text-[10px] text-on-primary">{time} · Bạn</div>
       </div>
       <Avatar initials={initials} size={8} tone="muted" />
     </div>
@@ -71,24 +71,24 @@ export function RagAnswer({ m }: { m: Of<'rag'> }) {
         </div>
       </div>
       <div className="flex items-center justify-between pt-2">
-        <div className="flex items-center gap-1 font-caption text-caption text-text-secondary"><Icon name="verified" size={16} className="text-[15px] text-status-success" /><span>Đã đối chiếu {m.verified} tài liệu thực</span></div>
+        <div className="flex items-center gap-1 font-caption text-caption text-text-secondary"><Icon name="verified" size={16} className="text-[15px] text-status-success-text" /><span>Đã đối chiếu {m.verified} tài liệu thực</span></div>
         <div className="flex items-center gap-1">
           <IconButton icon="content_copy" label="Sao chép câu trả lời" variant="soft" iconSize={18} />
-          <IconButton icon="thumb_up" label="Đánh giá hữu ích" variant="soft" iconSize={18} className="hover:text-status-success" />
-          <IconButton icon="thumb_down" label="Báo cáo câu trả lời chưa chính xác" variant="soft" iconSize={18} className="hover:text-status-error" />
+          <IconButton icon="thumb_up" label="Đánh giá hữu ích" variant="soft" iconSize={18} className="hover:text-status-success-text" />
+          <IconButton icon="thumb_down" label="Báo cáo câu trả lời chưa chính xác" variant="soft" iconSize={18} className="hover:text-status-error-text" />
         </div>
       </div>
     </AiBubble>
   )
 }
 
-const prioIcon = { urgent: { n: 'error', c: 'text-priority-urgent' }, high: { n: 'warning', c: 'text-priority-high' }, medium: { n: 'info', c: 'text-brand' }, low: { n: 'info', c: 'text-text-secondary' } } as const
-const prioChip = { urgent: 'bg-status-error/15 text-status-error font-bold', high: 'bg-surface-variant text-priority-high font-semibold', medium: 'bg-surface-variant text-brand font-semibold', low: 'bg-surface-variant text-text-secondary font-semibold' } as const
+const prioIcon = { urgent: { n: 'error', c: 'text-status-error-text' }, high: { n: 'warning', c: 'text-status-warning-text' }, medium: { n: 'info', c: 'text-brand' }, low: { n: 'info', c: 'text-text-secondary' } } as const
+const prioChip = { urgent: 'bg-status-error/15 text-status-error-text font-bold', high: 'bg-surface-variant text-status-warning-text font-semibold', medium: 'bg-surface-variant text-brand font-semibold', low: 'bg-surface-variant text-text-secondary font-semibold' } as const
 
 export function DataAnswer({ m, canEdit }: { m: Of<'data'>; canEdit: boolean }) {
   return (
     <AiBubble time={m.time} header={<><span className="inline-flex items-center gap-1.5 rounded-full bg-surface-variant px-3 py-1 font-caption text-caption font-semibold text-text-primary shadow-sm"><span className="h-2 w-2 animate-pulse rounded-full bg-status-success" />Dữ liệu trực tiếp từ hệ thống</span><span className="font-caption text-caption text-text-secondary">Truy vấn thời gian thực từ Bảng công việc</span></>}>
-      <p className="font-body-default text-body-default text-text-secondary">Phát hiện <span className="font-semibold text-status-error">{m.intro.count} công việc</span> {m.intro.text}</p>
+      <p className="font-body-default text-body-default text-text-secondary">Phát hiện <span className="font-semibold text-status-error-text">{m.intro.count} công việc</span> {m.intro.text}</p>
       <div className="overflow-x-auto rounded-xl bg-surface-variant/40 shadow-sm">
         <table className="w-full text-left font-body-default text-body-default">
           <thead>
@@ -103,7 +103,7 @@ export function DataAnswer({ m, canEdit }: { m: Of<'data'>; canEdit: boolean }) 
                   <div className="flex items-center gap-2"><Icon name={prioIcon[r.priority].n} size={18} className={prioIcon[r.priority].c} /><span className={cn(r.priority === 'urgent' && 'font-semibold')}>{r.title}</span></div>
                 </td>
                 <td className="px-4 py-3"><div className="flex items-center gap-2"><Avatar initials={r.assignee.initials} size={6} tone={r.priority === 'urgent' ? 'brand-muted' : 'ai'} /><span className="font-body-medium text-body-medium text-text-primary">{r.assignee.name}</span></div></td>
-                <td className="px-4 py-3"><span className={cn('inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-caption text-caption font-semibold', r.due.overdue ? 'bg-status-error/15 text-status-error' : 'bg-surface-variant text-priority-high')}><Icon name={r.due.icon} size={13} />{r.due.label}</span></td>
+                <td className="px-4 py-3"><span className={cn('inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-caption text-caption font-semibold', r.due.overdue ? 'bg-status-error/15 text-status-error-text' : 'bg-surface-variant text-status-warning-text')}><Icon name={r.due.icon} size={13} />{r.due.label}</span></td>
                 <td className="px-4 py-3"><span className={cn('inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-caption text-caption', prioChip[r.priority])}><PriorityDot level={r.priority} size="sm" />{priorityLabelVi[r.priority] === 'Khẩn cấp' ? 'Urgent' : 'High'}</span></td>
                 <td className="px-4 py-3"><a href="#" className="inline-flex items-center gap-1 rounded-full bg-surface-variant px-2.5 py-1 font-caption text-caption text-text-secondary transition-colors hover:text-brand"><Icon name={r.source.kind === 'audio' ? 'mic' : 'article'} size={16} className={cn('text-[14px]', r.source.kind === 'audio' && 'text-recording-red')} /><span>{r.source.label}</span></a></td>
               </tr>
@@ -134,7 +134,7 @@ export function ActionProposal({ m, canEdit, onConfirm, onCancel }: { m: Of<'act
               <p className="font-caption text-caption text-text-secondary">Hành động này sẽ xuất hiện trên Lịch &amp; Nhắc nhở của bạn</p>
             </div>
           </div>
-          <span className={cn('rounded-md px-2 py-0.5 font-caption text-caption font-semibold', m.state === 'confirmed' ? 'bg-status-success/15 text-status-success' : m.state === 'cancelled' ? 'bg-surface-variant text-text-secondary' : 'bg-ai-container text-ai-accent')}>
+          <span className={cn('rounded-md px-2 py-0.5 font-caption text-caption font-semibold', m.state === 'confirmed' ? 'bg-status-success/15 text-status-success-text' : m.state === 'cancelled' ? 'bg-surface-variant text-text-secondary' : 'bg-ai-container text-ai-accent')}>
             {m.state === 'confirmed' ? 'Đã tạo' : m.state === 'cancelled' ? 'Đã hủy' : 'Chờ xác nhận'}
           </span>
         </div>
@@ -149,7 +149,7 @@ export function ActionProposal({ m, canEdit, onConfirm, onCancel }: { m: Of<'act
               <Button size="lg" icon="check_circle" className="h-10 font-semibold" onClick={onConfirm} lockedReason={canEdit ? undefined : 'Bạn chỉ có quyền xem'}>Xác nhận tạo nhắc nhở</Button>
               <Button variant="outline" size="lg" icon="edit" className="h-10 bg-surface shadow-sm">Chỉnh sửa thông tin</Button>
             </div>
-            <Button variant="ghost" size="lg" icon="close" className="h-10 hover:bg-status-error/10 hover:text-status-error" onClick={onCancel}>Hủy đề xuất</Button>
+            <Button variant="ghost" size="lg" icon="close" className="h-10 hover:bg-status-error/10 hover:text-status-error-text" onClick={onCancel}>Hủy đề xuất</Button>
           </div>
         )}
       </div>

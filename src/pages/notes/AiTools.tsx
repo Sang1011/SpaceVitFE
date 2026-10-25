@@ -42,7 +42,7 @@ export function RewriteDiff({ original, suggestion, style, onCancel, onInsert, o
       <span aria-hidden="true" className="absolute inset-y-0 left-0 w-[3px] bg-ai-accent" />
       <div className="mb-3.5 flex items-center justify-between pb-3.5">
         <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-ai-accent text-[12px] font-bold text-on-primary">✦</div>
+          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-ai-accent text-[12px] font-bold text-on-ai">✦</div>
           <div>
             <span className="font-card-title text-card-title text-[14px] text-text-primary">Gợi ý viết lại từ AI</span>
             <span className="ml-2 inline-block rounded-full bg-surface/80 px-2 py-0.5 font-caption text-caption text-[10px] font-semibold text-ai-accent">Phong cách: {style}</span>
@@ -52,7 +52,7 @@ export function RewriteDiff({ original, suggestion, style, onCancel, onInsert, o
       </div>
       <div className="grid grid-cols-1 gap-4 text-[13.5px] leading-relaxed 2xl:grid-cols-2">
         <div className="space-y-1.5 rounded-lg bg-surface/70 p-3.5">
-          <div className="flex items-center justify-between font-caption text-caption text-[11px] font-semibold text-status-error">
+          <div className="flex items-center justify-between font-caption text-caption text-[11px] font-semibold text-status-error-text">
             <span className="flex items-center gap-1"><Icon name="remove_circle" size={16} className="text-[14px]" />BẢN GỐC HIỆN TẠI</span>
             <span className="font-label-mono text-[10px] text-text-secondary">{words(original)} từ</span>
           </div>

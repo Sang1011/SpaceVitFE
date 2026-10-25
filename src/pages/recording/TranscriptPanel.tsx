@@ -60,11 +60,11 @@ export function FailedChunkRow({ range, label, onRetry, locked }: { range: strin
   return (
     <div role="alert" className="flex flex-col justify-between gap-space-sm rounded-xl border border-status-error/20 bg-status-error/15 p-space-md sm:flex-row sm:items-center">
       <div className="flex items-start gap-space-sm">
-        <Icon name="warning" size={20} className="mt-0.5 shrink-0 text-status-error sm:mt-0" />
+        <Icon name="warning" size={20} className="mt-0.5 shrink-0 text-status-error-text sm:mt-0" />
         <div className="space-y-0.5">
           <div className="flex items-center gap-2">
             <Badge tone="error-solid" mono bold>{range}</Badge>
-            <span className="font-caption text-caption font-medium text-status-error">{label}</span>
+            <span className="font-caption text-caption font-medium text-status-error-text">{label}</span>
           </div>
           <p className="font-caption text-caption text-text-secondary">[Phân đoạn âm thanh bị gián đoạn - Bấm để thử lại STT]</p>
         </div>

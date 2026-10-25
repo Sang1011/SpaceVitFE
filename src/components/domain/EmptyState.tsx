@@ -56,7 +56,7 @@ export function OnboardingChecklist({ title, items }: { title: string; items: Ch
             )}
           >
             {it.status === 'done' ? (
-              <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-status-success text-on-primary">
+              <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success-solid text-on-solid">
                 <Icon name="check" size={13} className="text-[14px]" />
               </div>
             ) : it.status === 'current' ? (
@@ -71,7 +71,7 @@ export function OnboardingChecklist({ title, items }: { title: string; items: Ch
                 {it.label}
               </p>
               {it.status === 'done' ? (
-                <span className="font-caption text-caption text-[11px] text-status-success">Đã hoàn thành</span>
+                <span className="font-caption text-caption text-[11px] text-status-success-text">Đã hoàn thành</span>
               ) : (
                 it.description && <p className="font-caption text-caption text-[11px] text-text-secondary">{it.description}</p>
               )}

@@ -69,7 +69,7 @@ export function AssistantComposer({ prompts = [], value, onChange, onSubmit, pla
       {scopeNote && (
         <div className="flex items-center justify-between px-1 font-caption text-caption text-text-secondary">
           <div className="flex items-center gap-1 text-[11px]">
-            <Icon name="verified_user" size={16} className="text-[14px] text-status-success" />
+            <Icon name="verified_user" size={16} className="text-[14px] text-status-success-text" />
             <span>{scopeNote}</span>
           </div>
           <span className="hidden font-label-mono text-[10px] text-text-secondary sm:inline">Nhấn Enter để gửi, Shift + Enter để xuống dòng</span>

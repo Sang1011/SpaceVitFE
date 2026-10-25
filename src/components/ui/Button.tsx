@@ -15,11 +15,11 @@ export const buttonVariants = cva(
         subtle:
           'bg-surface-variant text-text-secondary hover:bg-surface-container-high hover:text-text-primary',
         ai: 'border border-ai-accent/20 bg-ai-container text-ai-accent hover:bg-secondary-fixed',
-        'ai-solid': 'bg-ai-accent text-on-primary shadow-sm hover:bg-secondary',
+        'ai-solid': 'bg-ai-accent text-on-ai shadow-sm hover:bg-secondary',
         tonal: 'bg-primary-fixed text-brand hover:bg-primary-container hover:text-on-primary',
-        destructive: 'bg-status-error text-on-primary shadow-sm hover:opacity-90 active:scale-95',
+        destructive: 'bg-error-solid text-on-solid shadow-sm hover:bg-error-solid/90 active:scale-95',
         'destructive-outline':
-          'border border-status-error/30 text-status-error hover:bg-status-error/10',
+          'border border-status-error/30 text-status-error-text hover:bg-status-error/10',
       },
       size: {
         xs: 'h-7 px-3 text-[12px]',

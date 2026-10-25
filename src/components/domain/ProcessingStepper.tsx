@@ -24,11 +24,11 @@ export const defaultSteps: StepperStep[] = [
 ]
 
 const tile: Record<StepStatus, { cls: string; icon: string; spin?: boolean }> = {
-  done: { cls: 'bg-status-success/10 text-status-success', icon: 'check_circle' },
+  done: { cls: 'bg-status-success/10 text-status-success-text', icon: 'check_circle' },
   active: { cls: 'bg-brand/10 text-brand', icon: 'progress_activity', spin: true },
-  error: { cls: 'border border-status-error/20 bg-status-error/15 text-status-error', icon: 'error' },
+  error: { cls: 'border border-status-error/20 bg-status-error/15 text-status-error-text', icon: 'error' },
   paused: { cls: 'bg-surface-variant text-text-secondary', icon: 'pause_circle' },
-  final: { cls: 'bg-status-success text-on-primary', icon: 'verified' },
+  final: { cls: 'bg-success-solid text-on-solid', icon: 'verified' },
   pending: { cls: 'bg-surface-variant text-text-secondary', icon: 'radio_button_unchecked' },
 }
 
@@ -67,7 +67,7 @@ export function ProcessingStepper({ title = 'Tiến trình xử lý âm thanh & 
             <li key={s.key} aria-current={s.status === 'active' ? 'step' : undefined} className={cn('flex items-center gap-2 rounded-lg p-2', t.cls)}>
               <Icon name={t.icon} size={18} className={t.spin ? 'animate-spin' : undefined} />
               <div className="min-w-0">
-                <p className={cn('truncate font-body-medium text-body-medium font-medium leading-none', s.status === 'final' ? 'font-semibold text-on-primary' : s.status === 'error' ? 'font-semibold' : 'text-text-primary')}>{s.label}</p>
+                <p className={cn('truncate font-body-medium text-body-medium font-medium leading-none', s.status === 'final' ? 'font-semibold text-on-solid' : s.status === 'error' ? 'font-semibold' : 'text-text-primary')}>{s.label}</p>
                 {s.detail && <span className="font-label-mono text-label-mono text-[10px] opacity-80">{s.detail}</span>}
               </div>
             </li>

@@ -3,7 +3,7 @@ import {
   Avatar, AvatarStack, Badge, Banner, Button, Checkbox, IconButton, Input, PriorityDot,
   ProgressBar, SearchInput, StatusChip, Tabs, Tooltip, type JobStatus,
 } from '../components/ui'
-import { useTheme } from '../theme/ThemeProvider'
+import { useTheme } from '../theme/theme-context'
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (

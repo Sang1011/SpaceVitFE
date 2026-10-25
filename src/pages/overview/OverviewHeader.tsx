@@ -52,7 +52,7 @@ export interface CaptureCardProps {
 const tile = {
   red: 'bg-recording-red/10 text-recording-red group-hover:bg-recording-red group-hover:text-surface',
   brand: 'bg-brand/10 text-brand group-hover:bg-brand group-hover:text-surface',
-  green: 'bg-status-success/10 text-status-success group-hover:bg-status-success group-hover:text-surface',
+  green: 'bg-status-success/10 text-status-success-text group-hover:bg-status-success group-hover:text-surface',
 }
 const tagTones = {
   ai: 'bg-ai-container text-ai-accent font-semibold',

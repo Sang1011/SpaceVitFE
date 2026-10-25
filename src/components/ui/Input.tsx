@@ -3,7 +3,7 @@ import { cn } from '../../lib/cn'
 import { Icon } from './Icon'
 
 const base =
-  'w-full h-9 rounded-lg bg-surface-variant border border-border text-text-primary placeholder:text-text-secondary font-body-default text-body-default focus:outline-none focus:ring-2 focus:ring-brand focus:bg-surface'
+  'w-full h-9 rounded-lg bg-surface-variant border border-border-strong text-text-primary placeholder:text-text-secondary font-body-default text-body-default focus:outline-none focus:ring-2 focus:ring-brand focus:bg-surface'
 
 export function Input({ className, ...props }: ComponentProps<'input'>) {
   return <input className={cn(base, 'px-3', className)} {...props} />

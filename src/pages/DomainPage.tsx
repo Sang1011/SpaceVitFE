@@ -4,7 +4,7 @@ import {
   ProcessingStepper, PromptChip, SourceChip, TaskListItem, defaultSteps, type StepperStep,
 } from '../components/domain'
 import { Button, Icon } from '../components/ui'
-import { useTheme } from '../theme/ThemeProvider'
+import { useTheme } from '../theme/theme-context'
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (

@@ -128,7 +128,7 @@ export function TaskDrawer({ detail, readOnly, onClose }: TaskDrawerProps) {
           <span className="font-body-medium text-body-medium text-[13px] text-text-primary">{detail.assignee.name}</span>
         </MetaItem>
         <MetaItem label="Hạn chót">
-          <span className={cn('flex items-center gap-1.5 font-medium', overdue ? 'text-status-error' : 'text-text-primary')}>
+          <span className={cn('flex items-center gap-1.5 font-medium', overdue ? 'text-status-error-text' : 'text-text-primary')}>
             <Icon name={overdue ? 'event_busy' : 'event'} size={16} />
             <span className="font-body-medium text-body-medium text-[13px]">{detail.due.label}</span>
           </span>
@@ -152,7 +152,7 @@ export function TaskDrawer({ detail, readOnly, onClose }: TaskDrawerProps) {
               <Icon name="lock" size={16} className="text-[14px]" />Chỉ xem
             </span>
           ) : (
-            <button type="button" className="flex items-center gap-0.5 font-caption text-caption text-[12px] text-brand hover:text-primary">
+            <button type="button" className="flex items-center gap-0.5 font-caption text-caption text-[12px] text-brand hover:underline">
               <Icon name="edit" size={16} className="text-[14px]" /> Chỉnh sửa
             </button>
           )}

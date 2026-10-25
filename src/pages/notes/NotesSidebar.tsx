@@ -74,7 +74,7 @@ export function NotesSidebar({ activeId, onSelect, onCreate, canEdit }: { active
       </div>
 
       <div className="flex items-center justify-between bg-surface-variant/40 p-3">
-        <div className="flex items-center gap-2"><Icon name="cloud_done" size={18} className="text-status-success" /><span className="font-caption text-caption text-[11px] text-text-secondary">Đã đồng bộ cục bộ</span></div>
+        <div className="flex items-center gap-2"><Icon name="cloud_done" size={18} className="text-status-success-text" /><span className="font-caption text-caption text-[11px] text-text-secondary">Đã đồng bộ cục bộ</span></div>
         <span className="font-label-mono text-label-mono text-[10px] text-text-secondary">v2.1</span>
       </div>
     </aside>

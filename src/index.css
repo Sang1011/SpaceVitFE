@@ -18,8 +18,15 @@
     margin: 0;
     padding: 0;
   }
+  html {
+    background-color: rgb(var(--color-background));
+  }
   body {
     overscroll-behavior: none;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-text-primary));
+    font-family: Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
   main > :first-child {
     margin-top: 0 !important;
@@ -29,8 +36,20 @@
   }
 }
 
-::-webkit-scrollbar {
-  display: none;
+/* Thanh cuộn mảnh theo token (trước đây ẩn hoàn toàn, nên bảng cuộn ngang không có dấu hiệu thao tác). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--color-border-strong) / 0.55) transparent;
+}
+
+/* Dùng có chọn lọc cho vùng cuộn mà thanh cuộn thật sự gây nhiễu. */
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .material-symbols-outlined {

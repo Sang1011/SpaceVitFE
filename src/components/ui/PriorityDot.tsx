@@ -9,8 +9,8 @@ const dot: Record<Priority, string> = {
   low: 'bg-priority-low',
 }
 const badge: Record<Priority, string> = {
-  urgent: 'bg-status-error/15 text-status-error',
-  high: 'bg-status-warning/15 text-status-warning',
+  urgent: 'bg-status-error/15 text-status-error-text',
+  high: 'bg-status-warning/15 text-status-warning-text',
   medium: 'bg-brand/15 text-brand',
   low: 'bg-priority-low/15 text-text-secondary',
 }

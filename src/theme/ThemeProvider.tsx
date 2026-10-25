@@ -1,34 +1,27 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from 'react'
+import { THEME_COLORS, THEME_KEY, ThemeContext, type ThemeCtx, type ThemeMode } from './theme-context'
 
-export type ThemeMode = 'light' | 'dark' | 'system'
-interface ThemeCtx {
-  mode: ThemeMode
-  resolved: 'light' | 'dark'
-  setMode: (m: ThemeMode) => void
-  toggle: () => void
-}
-
-const Ctx = createContext<ThemeCtx | null>(null)
-const KEY = 'scw-theme'
+const isMode = (v: unknown): v is ThemeMode => v === 'light' || v === 'dark' || v === 'system'
 
 function readStored(): ThemeMode {
   try {
-    const v = localStorage.getItem(KEY)
-    if (v === 'light' || v === 'dark' || v === 'system') return v
+    const v = localStorage.getItem(THEME_KEY)
+    if (isMode(v)) return v
   } catch {
     /* storage unavailable */
   }
-  return 'light'
+  return 'system'
 }
 
 function systemDark() {
-  return typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches
+  return typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-color-scheme: dark)').matches
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [mode, setModeState] = useState<ThemeMode>(readStored)
   const [sys, setSys] = useState<boolean>(systemDark)
 
+  // Theo dõi cài đặt giao diện của hệ điều hành (chỉ có tác dụng khi mode = 'system').
   useEffect(() => {
     const mq = window.matchMedia?.('(prefers-color-scheme: dark)')
     if (!mq) return
@@ -37,16 +30,27 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => mq.removeEventListener('change', h)
   }, [])
 
+  // Đồng bộ giữa các tab: đổi theme ở tab này thì tab khác đổi theo.
+  useEffect(() => {
+    const h = (e: StorageEvent) => {
+      if (e.key === THEME_KEY || e.key === null) setModeState(isMode(e.newValue) ? e.newValue : 'system')
+    }
+    window.addEventListener('storage', h)
+    return () => window.removeEventListener('storage', h)
+  }, [])
+
   const resolved: 'light' | 'dark' = mode === 'system' ? (sys ? 'dark' : 'light') : mode
 
-  useEffect(() => {
+  // useLayoutEffect: áp class trước khi trình duyệt vẽ để không bị nháy.
+  useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', resolved === 'dark')
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLORS[resolved])
   }, [resolved])
 
   const setMode = useCallback((m: ThemeMode) => {
     setModeState(m)
     try {
-      localStorage.setItem(KEY, m)
+      localStorage.setItem(THEME_KEY, m)
     } catch {
       /* ignore */
     }
@@ -56,11 +60,5 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     () => ({ mode, resolved, setMode, toggle: () => setMode(resolved === 'dark' ? 'light' : 'dark') }),
     [mode, resolved, setMode],
   )
-  return <Ctx.Provider value={value}>{children}</Ctx.Provider>
-}
-
-export function useTheme() {
-  const c = useContext(Ctx)
-  if (!c) throw new Error('useTheme must be used inside ThemeProvider')
-  return c
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }

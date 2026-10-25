@@ -45,7 +45,7 @@ export function TaskCard({ task, variant = 'normal', aiPaused, onOpen, className
           {task.title}
         </span>
         {done ? (
-          <Icon name="check_circle" size={18} className="shrink-0 text-status-success" />
+          <Icon name="check_circle" size={18} className="shrink-0 text-status-success-text" />
         ) : (
           task.priority && <span title={priorityTitle[task.priority]} className="mt-1 shrink-0"><PriorityDot level={task.priority} /></span>
         )}
@@ -56,7 +56,7 @@ export function TaskCard({ task, variant = 'normal', aiPaused, onOpen, className
           {task.labels.map((l) =>
             aiPaused && l.tone === 'ai' ? (
               <span key={l.text} className="flex items-center gap-1 rounded-full bg-surface-variant px-2 py-0.5 font-caption text-caption text-[11px] font-medium text-text-secondary">
-                <Icon name="cloud_off" size={13} className="text-[12px] text-status-warning" />
+                <Icon name="cloud_off" size={13} className="text-[12px] text-status-warning-text" />
                 AI Tạm ngưng
               </span>
             ) : (
@@ -88,7 +88,7 @@ export function TaskCard({ task, variant = 'normal', aiPaused, onOpen, className
         )}
         <div className="flex items-center gap-2">
           {task.due && (
-            <span className={cn('text-[11px]', task.due.overdue && 'flex items-center gap-0.5 font-medium text-status-error')}>
+            <span className={cn('text-[11px]', task.due.overdue && 'flex items-center gap-0.5 font-medium text-status-error-text')}>
               {task.due.overdue && <Icon name="schedule" size={13} className="text-[12px]" />}
               {task.due.label}
             </span>

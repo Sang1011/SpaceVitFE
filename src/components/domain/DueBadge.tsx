@@ -12,7 +12,7 @@ export function DueBadge({ label, overdue, className }: DueBadgeProps) {
     <span
       className={cn(
         'inline-flex items-center gap-1 font-caption text-caption text-[12px]',
-        overdue ? 'font-medium text-status-error' : 'text-text-secondary',
+        overdue ? 'font-medium text-status-error-text' : 'text-text-secondary',
         className,
       )}
     >

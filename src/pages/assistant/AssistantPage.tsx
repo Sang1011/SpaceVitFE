@@ -56,7 +56,7 @@ export default function AssistantPage() {
         </div>
         <div className="flex items-center gap-2">
           <Button variant="subtle" size="md" icon="add_comment" title="Bắt đầu hội thoại mới" onClick={() => setMessages([])}><span className="hidden sm:inline">Hội thoại mới</span></Button>
-          <Button variant="subtle" size="md" icon="delete_sweep" title="Xóa lịch sử hội thoại" className="hover:bg-status-error/10 hover:text-status-error" onClick={() => setMessages([])}><span className="hidden sm:inline">Xóa lịch sử</span></Button>
+          <Button variant="subtle" size="md" icon="delete_sweep" title="Xóa lịch sử hội thoại" className="hover:bg-status-error/10 hover:text-status-error-text" onClick={() => setMessages([])}><span className="hidden sm:inline">Xóa lịch sử</span></Button>
           <IconButton variant="filled" icon="fullscreen" label="Mở toàn màn hình" />
         </div>
       </header>

@@ -1,5 +1,5 @@
 import colorNames from '../theme/color-names.json'
-import { useTheme } from '../theme/ThemeProvider'
+import { useTheme } from '../theme/theme-context'
 
 // Static class names so Tailwind's JIT can see them.
 const fontSizes: [string, string][] = [

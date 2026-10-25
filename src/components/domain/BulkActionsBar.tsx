@@ -18,7 +18,7 @@ export function BulkActionsBar({ selected, total, onDismissAll, onConfirmAll, lo
         </span>
       </div>
       <div className="flex items-center gap-space-sm">
-        <Button variant="ghost" size="lg" className="px-3 hover:text-status-error" onClick={onDismissAll}>
+        <Button variant="ghost" size="lg" className="px-3 hover:text-status-error-text" onClick={onDismissAll}>
           Bỏ qua tất cả
         </Button>
         <Button size="lg" icon="add_task" disabled={selected === 0} onClick={onConfirmAll} lockedReason={lockedReason} className="active:scale-95">

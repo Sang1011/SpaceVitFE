@@ -19,11 +19,11 @@ const banner = cva('flex items-center justify-between gap-space-sm rounded-xl bo
 
 const iconColor = {
   info: 'text-text-secondary',
-  warning: 'text-status-warning',
-  error: 'text-status-error',
+  warning: 'text-status-warning-text',
+  error: 'text-status-error-text',
   ai: 'text-ai-accent',
 } as const
-const titleColor = { info: 'text-text-primary', warning: 'text-text-primary', error: 'text-status-error', ai: 'text-text-primary' } as const
+const titleColor = { info: 'text-text-primary', warning: 'text-text-primary', error: 'text-status-error-text', ai: 'text-text-primary' } as const
 const badgeTone = { info: 'neutral', warning: 'warning', error: 'error-solid', ai: 'ai-strong' } as const
 
 export interface BannerProps extends VariantProps<typeof banner> {
@@ -45,7 +45,7 @@ export function Banner({ tone = 'info', icon, title, description, badge, solidIc
       <div className="flex min-w-0 items-center gap-2.5">
         {icon &&
           (solidIcon ? (
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-status-error text-on-primary">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-error-solid text-on-solid">
               <Icon name={icon} size={20} />
             </div>
           ) : (

@@ -31,7 +31,7 @@ export function SectionCard({ icon, iconTone = 'muted', title, subtitle, action,
   )
 }
 
-const iconTile = { success: 'bg-status-success/10 text-status-success', brand: 'bg-brand/10 text-brand' }
+const iconTile = { success: 'bg-status-success/10 text-status-success-text', brand: 'bg-brand/10 text-brand' }
 
 export function RecentRow({ item }: { item: RecentItem }) {
   if (item.kind === 'processing') {

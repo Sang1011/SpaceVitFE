@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --color-background: 246 247 251; /* #F6F7FB */
   --color-surface: 255 255 255; /* #FFFFFF */
   --color-surface-bright: 251 248 255; /* #FBF8FF */
@@ -7,25 +8,33 @@
   --color-surface-container: 236 236 255; /* #ECECFF */
   --color-surface-container-high: 229 231 251; /* #E5E7FB */
   --color-border: 225 228 238; /* #E1E4EE */
+  --color-border-strong: 120 126 150; /* #787E96 viền thành phần tương tác (ô nhập, checkbox, nét đứt) */
   --color-text-primary: 21 24 38; /* #151826 */
   --color-text-secondary: 91 97 120; /* #5B6178 */
   --color-primary: 24 60 230; /* #183CE6 */
   --color-primary-container: 61 90 254; /* #3D5AFE */
-  --color-brand: 61 90 254; /* #3D5AFE */
+  --color-brand: 53 80 240; /* #3550F0 */
   --color-on-primary: 255 255 255; /* #FFFFFF */
   --color-primary-fixed: 222 224 255; /* #DEE0FF */
   --color-secondary: 99 44 229; /* #632CE5 */
   --color-secondary-fixed: 232 222 255; /* #E8DEFF */
-  --color-ai-accent: 124 77 255; /* #7C4DFF */
+  --color-ai-accent: 106 63 224; /* #6A3FE0 */
   --color-ai-container: 243 238 255; /* #F3EEFF */
+  --color-on-ai: 255 255 255; /* #FFFFFF chữ trên nền đặc ai-accent */
   --color-tertiary: 0 98 63; /* #00623F */
   --color-tertiary-container: 0 126 81; /* #007E51 */
   --color-tertiary-fixed: 127 250 186; /* #7FFABA */
   --color-error: 186 26 26; /* #BA1A1A */
   --color-error-container: 255 218 214; /* #FFDAD6 */
+  --color-error-solid: 198 40 40; /* #C62828 nền đặc báo lỗi (nút xóa, badge đặc) */
+  --color-success-solid: 0 126 81; /* #007E51 nền đặc thành công */
+  --color-on-solid: 255 255 255; /* #FFFFFF chữ trên error-solid / success-solid */
   --color-status-success: 31 169 113; /* #1FA971 */
   --color-status-warning: 245 158 11; /* #F59E0B */
   --color-status-error: 229 72 77; /* #E5484D */
+  --color-status-success-text: 0 112 74; /* #00704A chữ/icon trạng thái trên nền nhạt */
+  --color-status-warning-text: 146 64 14; /* #92400E */
+  --color-status-error-text: 186 26 26; /* #BA1A1A */
   --color-recording-red: 255 59 78; /* #FF3B4E */
   --color-priority-urgent: 229 72 77; /* #E5484D */
   --color-priority-high: 245 158 11; /* #F59E0B */
@@ -34,6 +43,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --color-background: 14 16 23; /* #0E1017 */
   --color-surface: 20 22 31; /* #14161F */
   --color-surface-bright: 20 22 31; /* #14161F */
@@ -42,9 +52,10 @@
   --color-surface-container: 36 40 56; /* #242838 */
   --color-surface-container-high: 43 48 68; /* #2B3044 */
   --color-border: 43 47 63; /* #2B2F3F */
+  --color-border-strong: 107 113 144; /* #6B7190 */
   --color-text-primary: 238 240 248; /* #EEF0F8 */
   --color-text-secondary: 163 169 191; /* #A3A9BF */
-  --color-primary-container: 30 39 97; /* #1E2761 */
+  --color-primary-container: 61 90 254; /* #3D5AFE (trước: navy #1E2761 gần như chìm vào nền) */
   --color-brand: 140 158 255; /* #8C9EFF */
   --color-on-primary: 238 240 248; /* #EEF0F8 */
   --color-primary-fixed: 30 39 97; /* #1E2761 */
@@ -52,4 +63,10 @@
   --color-secondary-fixed: 42 31 92; /* #2A1F5C */
   --color-ai-accent: 179 157 255; /* #B39DFF */
   --color-ai-container: 42 31 92; /* #2A1F5C */
+  --color-on-ai: 14 16 23; /* #0E1017 chữ tối trên ai-accent sáng */
+  --color-error: 255 180 171; /* #FFB4AB */
+  --color-error-container: 147 0 10; /* #93000A */
+  --color-status-success-text: 31 169 113; /* #1FA971 */
+  --color-status-warning-text: 245 158 11; /* #F59E0B */
+  --color-status-error-text: 255 138 142; /* #FF8A8E */
 }

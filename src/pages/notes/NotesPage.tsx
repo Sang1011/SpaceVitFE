@@ -127,7 +127,7 @@ export default function NotesPage() {
                 <span>·</span>
                 <span>Cập nhật {activeMeta.when}</span>
                 <span>·</span>
-                <div className="flex items-center gap-1 font-medium text-status-success"><span className="h-1.5 w-1.5 rounded-full bg-status-success" /><span>4 thành viên đang xem</span></div>
+                <div className="flex items-center gap-1 font-medium text-status-success-text"><span className="h-1.5 w-1.5 rounded-full bg-status-success" /><span>4 thành viên đang xem</span></div>
               </div>
               <AvatarStack members={viewers} max={3} size={6} />
             </div>
