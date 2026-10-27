@@ -1,6 +1,6 @@
 import { useWorkspace } from '../../context/WorkspaceContext'
 import type { SpaceRole } from '../../types/workspace'
-import { Avatar, Badge, IconButton, Icon } from '../ui'
+import { Avatar, Badge, IconButton, Icon, Popover, PopoverLabel, ThemePicker } from '../ui'
 import { assistantNav, mainNav, myTasksNav } from './nav'
 import { NavItem } from './NavItem'
 
@@ -38,7 +38,15 @@ export function UserCard() {
             <p className="truncate font-caption text-caption text-[11px] text-text-secondary">{user.title}</p>
           </div>
         </div>
-        <IconButton icon="settings" label="Cài đặt" />
+        <Popover
+          label="Cài đặt giao diện"
+          side="top"
+          panelClassName="w-60"
+          trigger={(p) => <IconButton {...p} icon="settings" label="Cài đặt" />}
+        >
+          <PopoverLabel className="pt-1">Giao diện</PopoverLabel>
+          <ThemePicker />
+        </Popover>
       </div>
     </div>
   )

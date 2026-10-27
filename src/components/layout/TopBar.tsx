@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { useWorkspace } from '../../context/WorkspaceContext'
-import { Avatar, AvatarStack, Button, IconButton, SearchInput } from '../ui'
+import { AvatarStack, Button, IconButton, SearchInput } from '../ui'
 import { Logo } from './Logo'
+import { UserMenu } from './UserMenu'
 
 export interface TopBarProps {
   breadcrumb: string[]
@@ -60,7 +61,7 @@ export function TopBar({ breadcrumb, onOpenAssistant, onCreate, onInvite }: TopB
         <Button icon="add" className="px-3.5" onClick={onCreate} lockedReason={canEdit ? undefined : 'Bạn chỉ có quyền xem'}>
           Tạo mới
         </Button>
-        <Avatar icon="person" size={8} tone="solid" />
+        <UserMenu />
       </div>
     </header>
   )
