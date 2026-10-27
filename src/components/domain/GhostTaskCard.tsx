@@ -1,6 +1,6 @@
 import { cn } from '../../lib/cn'
 import { Avatar, Button, Checkbox, Icon, PriorityDot, type Priority } from '../ui'
-import { priorityLabelVi } from './TaskListItem'
+import { priorityLabelVi } from '../../lib/terms'
 import { SourceChip, type SourceChipProps } from './SourceChip'
 
 export interface GhostTaskCardProps {

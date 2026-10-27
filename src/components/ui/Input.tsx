@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '../../lib/cn'
 import { Icon } from './Icon'
 
@@ -10,8 +10,8 @@ export function Input({ className, ...props }: ComponentProps<'input'>) {
 }
 
 export interface SearchInputProps extends ComponentProps<'input'> {
-  /** Keyboard hint on the right, e.g. "⌘K". */
-  hint?: string
+  /** Gợi ý phím tắt bên phải, ví dụ <Kbd keys={['mod','K']} />. */
+  hint?: ReactNode
   /** Smaller variant used in filter bars (h-8, thin ring). */
   compact?: boolean
 }
@@ -26,13 +26,11 @@ export function SearchInput({ hint, compact, className, ...props }: SearchInputP
       />
       <input
         type="text"
-        className={cn(base, compact ? 'h-8 pl-8 pr-3 focus:ring-1 focus:bg-surface-variant' : 'pl-9', !compact && (hint ? 'pr-12' : 'pr-3'), className)}
+        className={cn(base, compact ? 'h-8 pl-8 pr-3 focus:ring-1 focus:bg-surface-variant' : 'pl-9', !compact && (hint ? 'pr-16' : 'pr-3'), className)}
         {...props}
       />
       {hint && (
-        <span className="absolute right-2 rounded border border-border bg-surface px-1.5 py-0.5 font-label-mono text-label-mono text-[10px] text-text-secondary">
-          {hint}
-        </span>
+        <span className="absolute right-2">{hint}</span>
       )}
     </div>
   )

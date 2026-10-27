@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import {
-  Avatar, AvatarStack, Badge, Banner, Button, Checkbox, IconButton, Input, PriorityDot,
-  ProgressBar, SearchInput, StatusChip, Tabs, Tooltip, type JobStatus,
+  Avatar, AvatarStack, Badge, Banner, Button, Checkbox, ConfirmDialog, IconButton, Input, Kbd, PriorityChip, PriorityDot,
+  ProgressBar, SearchInput, SidePanel, Skeleton, SkeletonGroup, StatusChip, Tabs, Tooltip, useToast, type JobStatus,
 } from '../components/ui'
 import { useTheme } from '../theme/theme-context'
 
@@ -15,11 +15,52 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 }
 
 function KitContent() {
+  const { toast } = useToast()
+  const [confirm, setConfirm] = useState(false)
+  const [panel, setPanel] = useState(false)
   const [tab, setTab] = useState('todo')
   const [dismissed, setDismissed] = useState(false)
   const statuses: JobStatus[] = ['completed', 'processing', 'partial_ready', 'partial_failed', 'failed']
   return (
     <div className="space-y-space-lg">
+      <Section title="PriorityChip (cờ + chữ)">
+        <PriorityChip level="urgent" />
+        <PriorityChip level="high" />
+        <PriorityChip level="medium" />
+        <PriorityChip level="low" />
+      </Section>
+      <Section title="Kbd / Skeleton">
+        <Kbd keys={['mod', 'K']} />
+        <Kbd keys={['N']} />
+        <SkeletonGroup label="Đang tải danh sách" className="w-64 space-y-2">
+          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-1/2" />
+        </SkeletonGroup>
+      </Section>
+      <Section title="Toast / ConfirmDialog / SidePanel">
+        <Button variant="outline" onClick={() => toast({ message: 'Đã xóa 1 việc', action: { label: 'Hoàn tác', onClick: () => toast({ message: 'Đã hoàn tác', tone: 'success' }) } })}>Toast có Hoàn tác</Button>
+        <Button variant="outline" onClick={() => setConfirm(true)}>Mở hộp xác nhận</Button>
+        <Button variant="outline" onClick={() => setPanel((o) => !o)}>{panel ? 'Đóng' : 'Mở'} panel</Button>
+      </Section>
+      <ConfirmDialog
+        open={confirm}
+        title="Xóa việc này?"
+        description="Việc sẽ bị xóa khỏi bảng. Bạn có thể hoàn tác trong vài giây."
+        confirmLabel="Xóa việc"
+        tone="destructive"
+        onCancel={() => setConfirm(false)}
+        onConfirm={() => {
+          setConfirm(false)
+          toast({ message: 'Đã xóa 1 việc', action: { label: 'Hoàn tác', onClick: () => {} } })
+        }}
+      />
+      <div className="flex h-72 gap-space-sm">
+        <div className="min-w-0 flex-1 rounded-2xl border border-dashed border-border-strong p-space-md font-body-default text-body-default text-text-secondary">Nội dung chính: panel đẩy vùng này, không che.</div>
+        <SidePanel open={panel} onClose={() => setPanel(false)} title="Chi tiết việc">
+          <p className="font-body-default text-body-default text-text-primary">Kéo thanh bên trái hoặc dùng phím ← → để đổi độ rộng 400–480px.</p>
+        </SidePanel>
+      </div>
       <Section title="Button / variant (size sm)">
         <Button icon="add">Tạo mới</Button>
         <Button variant="outline" icon="person_add">Mời</Button>
@@ -84,7 +125,7 @@ function KitContent() {
         <Checkbox defaultChecked disabled label="Disabled (viewer)" />
       </Section>
       <Section title="Input / SearchInput / Tooltip">
-        <div className="w-72"><SearchInput hint="⌘K" placeholder="Tìm kiếm ghi chú, tài liệu..." /></div>
+        <div className="w-72"><SearchInput hint={<Kbd keys={['mod', 'K']} />} placeholder="Tìm kiếm ghi chú, tài liệu..." /></div>
         <div className="w-56"><Input placeholder="Tiêu đề" /></div>
         <Tooltip content="Bạn chỉ có quyền xem"><Button variant="outline" disabled>Hover tôi</Button></Tooltip>
       </Section>

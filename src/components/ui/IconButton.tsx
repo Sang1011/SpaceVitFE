@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
 import { Icon, type IconSize } from './Icon'
 
-const iconButtonVariants = cva('relative inline-flex items-center justify-center transition-colors', {
+const iconButtonVariants = cva('relative inline-flex items-center justify-center outline-none transition-colors focus-visible:ring-2 focus-visible:ring-brand [@media(pointer:coarse)]:min-h-11 [@media(pointer:coarse)]:min-w-11', {
   variants: {
     variant: {
       plain: 'p-1 rounded text-text-secondary hover:text-text-primary',

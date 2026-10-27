@@ -1,14 +1,8 @@
 import { cn } from '../../lib/cn'
 import { Avatar, Checkbox, PriorityDot, type AvatarProps, type Priority } from '../ui'
+import { priorityLabelVi } from '../../lib/terms'
 import { DueBadge } from './DueBadge'
 import { SourceChip, type SourceChipProps } from './SourceChip'
-
-export const priorityLabelVi: Record<Priority, string> = {
-  urgent: 'Khẩn cấp',
-  high: 'Cao',
-  medium: 'Trung bình',
-  low: 'Thấp',
-}
 
 export interface TaskListItemProps {
   title: string

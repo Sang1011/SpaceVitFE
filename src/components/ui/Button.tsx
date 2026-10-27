@@ -5,7 +5,7 @@ import { Icon, type IconSize } from './Icon'
 import { Tooltip } from './Tooltip'
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-1.5 whitespace-nowrap font-body-medium text-body-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50',
+  'inline-flex items-center justify-center gap-1.5 whitespace-nowrap font-body-medium text-body-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface disabled:cursor-not-allowed disabled:opacity-50 [@media(pointer:coarse)]:min-h-11',
   {
     variants: {
       variant: {

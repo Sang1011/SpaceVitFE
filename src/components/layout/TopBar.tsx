@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useWorkspace } from '../../context/WorkspaceContext'
-import { AvatarStack, Button, IconButton, SearchInput } from '../ui'
+import { AvatarStack, Button, IconButton, Kbd, SearchInput } from '../ui'
 import { Logo } from './Logo'
 import { UserMenu } from './UserMenu'
 
@@ -45,7 +45,7 @@ export function TopBar({ breadcrumb, onOpenAssistant, onCreate, onInvite }: TopB
       </div>
 
       <div className="mx-space-md max-w-md flex-1">
-        <SearchInput ref={search} hint="⌘K" placeholder="Tìm kiếm ghi chú, tài liệu, bản ghi... (Ctrl + K)" />
+        <SearchInput ref={search} hint={<Kbd keys={['mod', 'K']} />} placeholder="Tìm kiếm ghi chú, tài liệu, bản ghi..." />
       </div>
 
       <div className="flex shrink-0 items-center gap-space-sm">

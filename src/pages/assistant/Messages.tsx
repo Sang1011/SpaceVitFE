@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Avatar, Badge, Button, Icon, IconButton, PriorityDot } from '../../components/ui'
 import { AiContainer } from '../../components/domain'
-import { priorityLabelVi } from '../../components/domain/TaskListItem'
+import { priorityLabelVi } from '../../lib/terms'
 import { cn } from '../../lib/cn'
 import type { ChatMessage } from '../../mocks/assistant'
 

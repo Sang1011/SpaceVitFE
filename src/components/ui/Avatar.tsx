@@ -45,21 +45,27 @@ export function Avatar({ initials, icon, presence, size, tone, bordered, classNa
 }
 
 export interface AvatarStackProps {
-  members: { initials: string; tone?: AvatarProps['tone'] }[]
+  members: { initials: string; name?: string; tone?: AvatarProps['tone'] }[]
   max?: number
   size?: AvatarProps['size']
   className?: string
 }
 
+/** Chồng avatar. Độ chồng lấn theo cỡ để chữ viết tắt luôn đọc được; người dư hiện "+N". */
 export function AvatarStack({ members, max = 3, size = 7, className }: AvatarStackProps) {
   const shown = members.slice(0, max)
   const rest = members.length - shown.length
+  const overlap = (size ?? 7) <= 6 ? '-space-x-1' : '-space-x-1.5'
   return (
-    <div className={cn('flex items-center -space-x-2', className)}>
+    <div role="group" aria-label={`${members.length} thành viên`} className={cn('flex items-center', overlap, className)}>
       {shown.map((m, i) => (
-        <Avatar key={i} initials={m.initials} tone={m.tone ?? (['neutral', 'ai', 'primary'] as const)[i % 3]} size={size} bordered />
+        <span key={i} title={m.name} className="inline-flex">
+          <Avatar initials={m.initials} tone={m.tone ?? (['neutral', 'ai', 'primary'] as const)[i % 3]} size={size} bordered />
+        </span>
       ))}
       {rest > 0 && <Avatar initials={`+${rest}`} tone="muted" size={size} bordered className="font-semibold" />}
     </div>
   )
 }
+
+export { AvatarStack as AvatarGroup }

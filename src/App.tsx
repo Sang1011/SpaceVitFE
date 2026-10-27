@@ -11,13 +11,15 @@ import KitPage from './pages/KitPage'
 import PlaceholderPage from './pages/PlaceholderPage'
 import ShellDemoPage from './pages/ShellDemoPage'
 import TokensPage from './pages/TokensPage'
+import { ToastProvider } from './components/ui/ToastProvider'
 import { ThemeProvider } from './theme/ThemeProvider'
 
 export default function App() {
   return (
     <ThemeProvider>
       <WorkspaceProvider>
-        <BrowserRouter>
+        <ToastProvider>
+          <BrowserRouter>
           <Routes>
             {/* dev pages, outside the shell */}
             <Route path="/_tokens" element={<TokensPage />} />
@@ -40,6 +42,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/tong-quan" replace />} />
           </Routes>
         </BrowserRouter>
+      </ToastProvider>
       </WorkspaceProvider>
     </ThemeProvider>
   )
