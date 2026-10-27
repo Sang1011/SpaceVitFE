@@ -24,6 +24,9 @@ export interface MyTask {
   assignee: { name: string; initials: string; tone: Tone }
 }
 
+/** Tổng số việc của tôi: nguồn duy nhất cho badge ở Sidebar và nút "Xem tất cả" ở Tổng quan. */
+export const myTasksTotal = 12
+
 export const myTasks: MyTask[] = [
   { id: 'o1', title: 'Hoàn thiện API đăng nhập & xác thực SSO', priority: 'urgent', source: { kind: 'audio', label: 'Họp sprint 12', location: '12:34' }, due: { label: 'Quá hạn (Hôm qua 18:00)', overdue: true }, assignee: { name: 'Nguyễn Minh Anh', initials: 'NA', tone: 'container' } },
   { id: 'o2', title: 'Review thiết kế Onboarding và luồng kích hoạt', priority: 'high', source: { kind: 'document', label: 'Spec_v2.1.pdf', location: 'tr.8' }, due: { label: 'Hôm nay 15:30' }, assignee: { name: 'Trần Quốc Bảo', initials: 'QB', tone: 'ai' } },

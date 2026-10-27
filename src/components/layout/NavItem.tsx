@@ -11,24 +11,27 @@ export interface NavItemProps {
   trailing?: ReactNode
   /** Violet icon (Trợ lý AI). */
   aiIcon?: boolean
+  /** Chỉ hiện icon (Sidebar thu gọn). Nhãn vẫn có cho trình đọc màn hình và tooltip. */
+  compact?: boolean
 }
 
 const base =
-  'flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-variant hover:text-text-primary transition-colors font-body-medium text-body-medium'
+  'relative flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-text-secondary hover:bg-surface-variant hover:text-text-primary transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand font-body-medium text-body-medium'
 
-export function NavItem({ to, icon, label, trailing, aiIcon }: NavItemProps) {
+export function NavItem({ to, icon, label, trailing, aiIcon, compact }: NavItemProps) {
   return (
     <NavLink
       to={to}
+      title={compact ? label : undefined}
       className={({ isActive }) =>
-        cn(base, trailing && 'justify-between', isActive && 'bg-surface-variant text-brand font-semibold')
+        cn(base, compact ? 'justify-center' : trailing && 'justify-between', isActive && 'bg-surface-variant text-brand font-semibold')
       }
     >
       <span className="flex items-center gap-space-sm">
         <Icon name={icon} size={20} className={aiIcon ? 'text-ai-accent' : undefined} />
-        <span>{label}</span>
+        <span className={compact ? 'sr-only' : undefined}>{label}</span>
       </span>
-      {trailing}
+      {trailing && <span className={compact ? 'absolute -right-0.5 -top-0.5 scale-75' : undefined}>{trailing}</span>}
     </NavLink>
   )
 }

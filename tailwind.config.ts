@@ -11,6 +11,8 @@ const config: Config = {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
+    // Giữ khớp với src/lib/breakpoints.ts. `dock:` là ngưỡng gắn panel cạnh nội dung (D4).
+    screens: { sm: '640px', md: '768px', lg: '1024px', dock: '1100px', xl: '1280px', '2xl': '1536px' },
     extend: {
       colors,
       borderRadius: { DEFAULT: '0.25rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },

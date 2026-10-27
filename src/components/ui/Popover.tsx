@@ -87,6 +87,10 @@ export function Popover({ label, trigger, children, align = 'right', side = 'bot
           id={id}
           role="dialog"
           aria-label={label}
+          // Phần tử có data-popover-close: bấm vào thì đóng hộp (dùng cho các mục menu).
+          onClick={(e) => {
+            if ((e.target as HTMLElement).closest('[data-popover-close]')) close()
+          }}
           className={cn(
             'absolute z-50 w-72 animate-fade-in rounded-xl border border-border bg-surface p-space-sm shadow-xl',
             side === 'bottom' ? 'top-full mt-2' : 'bottom-full mb-2',

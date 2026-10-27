@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
+import { DOCK_QUERY } from '../../lib/breakpoints'
 import { useMediaQuery } from '../../lib/useMediaQuery'
 import { IconButton } from './IconButton'
 
@@ -25,7 +26,7 @@ export interface SidePanelProps {
  * Dưới 1100px: thành hộp thoại nổi có nền mờ, Esc để đóng.
  */
 export function SidePanel({ open, onClose, title, header, footer, children, defaultWidth = 440, className }: SidePanelProps) {
-  const docked = useMediaQuery('(min-width: 1100px)')
+  const docked = useMediaQuery(DOCK_QUERY)
   const [width, setWidth] = useState(clamp(defaultWidth))
   const drag = useRef<{ x: number; w: number } | null>(null)
   const panel = useRef<HTMLElement>(null)

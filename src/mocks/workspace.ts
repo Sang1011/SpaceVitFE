@@ -1,3 +1,4 @@
+import { myTasksTotal } from './overview'
 import type { Member, Space, UserProfile } from '../types/workspace'
 
 export const mockSpace: Space = { id: 'alpha', name: 'Dự án Alpha', role: 'owner' }
@@ -17,4 +18,4 @@ export const mockMembers: Member[] = [
   { initials: 'BK', name: 'Bùi Khánh' },
 ]
 
-export const mockCounts = { myTasks: 5, hasUnreadNotifications: true }
+export const mockCounts = { myTasks: myTasksTotal, hasUnreadNotifications: true }

@@ -15,3 +15,11 @@ export const mainNav: NavEntry[] = [
 ]
 export const assistantNav: NavEntry = { to: '/tro-ly-ai', icon: 'auto_awesome', label: 'Trợ lý AI' }
 export const myTasksNav: NavEntry = { to: '/cong-viec-cua-toi', icon: 'check_circle', label: 'Công việc của tôi' }
+
+const allNav: NavEntry[] = [...mainNav, assistantNav, myTasksNav]
+
+/** Tên trang theo đường dẫn, dùng cho breadcrumb và ngữ cảnh của Trợ lý. */
+export function pageLabelFor(pathname: string): string {
+  const hit = allNav.find((n) => pathname === n.to || pathname.startsWith(n.to + '/'))
+  return hit?.label ?? 'Trang hiện tại'
+}

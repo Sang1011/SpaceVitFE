@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AiContainer, GhostTaskCard, TaskListItem } from '../../components/domain'
 import { Icon } from '../../components/ui'
 import { useWorkspace } from '../../context/WorkspaceContext'
-import { myTasks, overviewGhostTasks, recentItems } from '../../mocks/overview'
+import { myTasks, myTasksTotal, overviewGhostTasks, recentItems } from '../../mocks/overview'
 import { CaptureCard, OverviewHeader } from './OverviewHeader'
 import { QuickAsk } from './QuickAsk'
 import { ActivityTimeline, RecentRow, SectionCard } from './Sections'
@@ -37,7 +37,7 @@ export default function OverviewPage() {
             iconTone="brand"
             title="Việc của tôi hôm nay & Quá hạn"
             subtitle="4 nhiệm vụ ưu tiên đang chờ xử lý"
-            action={<button type="button" onClick={() => navigate('/cong-viec-cua-toi')} className="rounded-lg bg-surface-variant px-2.5 py-1 font-body-medium text-body-medium text-[12px] text-text-secondary hover:text-text-primary">Xem tất cả (12)</button>}
+            action={<button type="button" onClick={() => navigate('/cong-viec-cua-toi')} className="rounded-lg bg-surface-variant px-2.5 py-1 font-body-medium text-body-medium text-[12px] text-text-secondary hover:text-text-primary">Xem tất cả ({myTasksTotal})</button>}
           >
             {myTasks.map((t) => (
               <TaskListItem key={t.id} {...t} checked={!!done[t.id]} onCheckedChange={(v) => setDone({ ...done, [t.id]: v })} disabled={!canEdit} />
