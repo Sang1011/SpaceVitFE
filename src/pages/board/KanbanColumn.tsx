@@ -30,11 +30,28 @@ const countTone = {
   success: { tone: 'success', className: 'bg-status-success/20' },
 } as const
 
-function DraggableCard({ task, variant, draggable, aiPaused, onOpen }: { task: BoardTask; variant: TaskCardVariant; draggable: boolean; aiPaused?: boolean; onOpen: () => void }) {
+function DraggableCard({ task, variant, compact, draggable, aiPaused, onOpen }: { task: BoardTask; variant: TaskCardVariant; compact?: boolean; draggable: boolean; aiPaused?: boolean; onOpen: () => void }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({ id: task.id, disabled: !draggable })
   return (
-    <div ref={setNodeRef} {...attributes} {...listeners} className={cn(isDragging && 'opacity-40', !draggable && 'cursor-default')}>
-      <TaskCard task={task} variant={variant} aiPaused={aiPaused} onOpen={onOpen} className={!draggable ? 'cursor-pointer' : undefined} />
+    <div
+      ref={setNodeRef}
+      id={`card-${task.id}`}
+      {...attributes}
+      {...listeners}
+      tabIndex={0}
+      role="button"
+      aria-label={`${task.title}. Enter để mở${draggable ? ', Space để nhấc và kéo' : ''}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          onOpen()
+          return
+        }
+        listeners?.onKeyDown?.(e)
+      }}
+      className={cn('rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-brand', isDragging && 'opacity-40', !draggable && 'cursor-default')}
+    >
+      <TaskCard task={task} variant={variant} compact={compact} aiPaused={aiPaused} onOpen={onOpen} className={!draggable ? 'cursor-pointer' : undefined} />
     </div>
   )
 }
@@ -45,24 +62,28 @@ export interface KanbanColumnProps {
   /** Viewer: no drag, no add card. */
   canEdit: boolean
   aiPaused?: boolean
+  /** Panel chi tiết đang mở: thẻ thu gọn. */
+  compact?: boolean
   /** A card is being dragged over this column. */
   showDrop?: boolean
   /** Static demo of the drag state (Stitch screenshot): shows a lifted card + drop zone. */
   demoDragTaskId?: string | null
   onOpenTask: (id: string) => void
   onAddCard?: () => void
+  /** Có bộ lọc đang bật: cột rỗng hiện "Không có việc khớp" thay vì cột trống. */
+  filtered?: boolean
 }
 
-export function KanbanColumn({ column, selectedId, canEdit, aiPaused, showDrop, demoDragTaskId, onOpenTask, onAddCard }: KanbanColumnProps) {
+export function KanbanColumn({ column, selectedId, canEdit, aiPaused, compact, showDrop, demoDragTaskId, onOpenTask, onAddCard, filtered }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: column.key, disabled: !canEdit })
   const total = column.tasks.length + (column.hidden ?? 0)
   const ct = countTone[column.tone]
   return (
-    <div ref={setNodeRef} className={cn('flex flex-col gap-space-sm rounded-xl bg-surface-variant/70 p-space-sm transition-shadow', isOver && canEdit && 'ring-2 ring-brand/40')}>
+    <section ref={setNodeRef} aria-label={column.title} className={cn('flex flex-col gap-space-sm rounded-xl bg-surface-variant/70 p-space-sm transition-shadow', isOver && canEdit && 'ring-2 ring-brand/40')}>
       <div className="flex items-center justify-between px-1 py-1">
         <div className="flex items-center gap-space-xs">
           <span className="font-card-title text-card-title text-[14px] text-text-primary">{column.title}</span>
-          <Badge tone={ct.tone} mono bold className={ct.className}>{total}</Badge>
+          <Badge tone={ct.tone} bold className={ct.className}>{total}</Badge>
         </div>
         <IconButton icon="more_horiz" label={`Tùy chọn cột ${column.title}`} iconSize={18} className="p-0.5" />
       </div>
@@ -73,25 +94,32 @@ export function KanbanColumn({ column, selectedId, canEdit, aiPaused, showDrop, 
           if (isDemoDrag) {
             return (
               <div key={t.id} className="flex flex-col gap-space-sm">
-                <TaskCard task={t} variant={canEdit ? 'dragged' : 'locked'} aiPaused={aiPaused} />
+                <TaskCard task={t} variant={canEdit ? 'dragged' : 'locked'} compact={compact} aiPaused={aiPaused} />
                 <DropZone enabled={canEdit} />
               </div>
             )
           }
           const variant: TaskCardVariant = column.key === 'done' ? 'done' : t.id === selectedId ? 'selected' : 'normal'
           return column.key === 'done' ? (
-            <TaskCard key={t.id} task={t} variant="done" onOpen={() => onOpenTask(t.id)} />
+            <div key={t.id} id={`card-${t.id}`} className={cn('rounded-xl', t.id === selectedId && 'ring-2 ring-brand')}>
+              <TaskCard task={t} variant="done" compact={compact} onOpen={() => onOpenTask(t.id)} />
+            </div>
           ) : (
-            <DraggableCard key={t.id} task={t} variant={variant} draggable={canEdit} aiPaused={aiPaused && t.labels.some((l) => l.tone === 'ai')} onOpen={() => onOpenTask(t.id)} />
+            <DraggableCard key={t.id} task={t} variant={variant} compact={compact} draggable={canEdit} aiPaused={aiPaused && t.labels.some((l) => l.tone === 'ai')} onOpen={() => onOpenTask(t.id)} />
           )
         })}
         {showDrop && canEdit && <DropZone />}
+        {column.tasks.length === 0 && !showDrop && (
+          <p className="rounded-lg border border-dashed border-border px-2 py-4 text-center font-caption text-caption text-text-secondary">
+            {filtered ? 'Không có việc khớp bộ lọc' : 'Chưa có việc nào'}
+          </p>
+        )}
       </div>
 
       {column.key === 'done' && column.hidden ? (
         <button type="button" className="flex w-full items-center justify-center gap-1 rounded-lg py-1.5 font-body-medium text-body-medium text-[12px] text-text-secondary hover:bg-surface/60 hover:text-text-primary">
           <Icon name="expand_more" size={16} />
-          <span>Xem thêm {column.hidden} task hoàn thành</span>
+          <span>Xem thêm {column.hidden} việc hoàn thành</span>
         </button>
       ) : canEdit ? (
         <button type="button" onClick={onAddCard} className="flex w-full items-center justify-center gap-1 rounded-lg py-2 font-body-medium text-body-medium text-[13px] text-text-secondary hover:bg-surface/60 hover:text-text-primary">
@@ -104,6 +132,6 @@ export function KanbanColumn({ column, selectedId, canEdit, aiPaused, showDrop, 
           <span>Thêm thẻ (Chỉ xem)</span>
         </div>
       )}
-    </div>
+    </section>
   )
 }

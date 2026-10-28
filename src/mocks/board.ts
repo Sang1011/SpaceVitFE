@@ -1,3 +1,4 @@
+import { priorityLabelVi } from '../lib/terms'
 import type { BoardColumnData, BoardTask, TaskDetail } from '../types/board'
 
 const NA = { initials: 'NA', name: 'Nguyễn Minh Anh', tone: 'container' } as const
@@ -22,20 +23,20 @@ export const boardColumns: BoardColumnData[] = [
   },
   {
     key: 'doing',
-    title: 'Đang thực hiện',
+    title: 'Đang làm',
     tone: 'solid',
     tasks: [
-      { id: 't5', title: 'Hoàn thiện luồng xác nhận ghost task từ transcript ghi âm', priority: 'high', labels: [{ text: '✦ AI Core', tone: 'ai' }, { text: 'Frontend', tone: 'primary' }], source: { icon: 'mic', text: '12:34', mono: true, iconBrand: true }, due: { label: '18/10', overdue: true }, assignee: NA },
+      { id: 't5', title: 'Hoàn thiện luồng duyệt việc đề xuất từ bản chép lời ghi âm', priority: 'high', labels: [{ text: 'AI Core', tone: 'ai' }, { text: 'Frontend', tone: 'primary' }], source: { icon: 'mic', text: '12:34', mono: true, iconBrand: true }, due: { label: '18/10', overdue: true }, assignee: NA },
       { id: 't6', title: 'Tái cấu trúc API WebSocket audio chunking cho trình duyệt', priority: 'urgent', labels: [{ text: 'Backend', tone: 'neutral' }], source: { icon: 'mic', text: '09:12', mono: true }, due: { label: '21/10' }, assignee: HL },
       { id: 't7', title: 'Tích hợp Waveform động Canvas khi người dùng bấm ghi âm', priority: 'medium', labels: [{ text: 'Frontend', tone: 'primary' }], source: { icon: 'notes', text: 'SRS v2.1', bare: true }, due: { label: '25/10' }, assignee: TM2 },
     ],
   },
   {
     key: 'review',
-    title: 'Đang đánh giá / AI đối soát',
+    title: 'Đánh giá',
     tone: 'ai',
     tasks: [
-      { id: 't8', title: '✦ Tự động trích xuất Action Items từ tài liệu cuộc họp ISO', priority: 'high', labels: [{ text: '✦ AI Review', tone: 'ai' }, { text: 'Backend', tone: 'neutral' }], source: { icon: 'description', text: 'ISO_9001.pdf' }, due: { label: '19/10' }, assignee: QB, aiReview: true },
+      { id: 't8', title: 'Tự động trích xuất việc cần làm từ tài liệu cuộc họp ISO', priority: 'high', labels: [{ text: 'AI đối soát', tone: 'ai' }, { text: 'Backend', tone: 'neutral' }], source: { icon: 'description', text: 'ISO_9001.pdf' }, due: { label: '19/10' }, assignee: QB, aiReview: true },
       { id: 't9', title: 'Review phân quyền Space Viewer: Ẩn triệt để thanh công cụ sửa', priority: 'medium', labels: [{ text: 'Frontend', tone: 'primary' }], source: { icon: 'mic', text: '31:02', mono: true }, due: { label: '20/10' }, assignee: NA },
     ],
   },
@@ -57,20 +58,20 @@ export const selectedTaskId = 't5'
 /** Detail content of the selected task (the Stitch drawer shows only this one; other tasks get generated stubs). */
 export const taskDetails: Record<string, TaskDetail> = {
   t5: {
-    title: 'Hoàn thiện luồng xác nhận ghost task từ transcript ghi âm',
+    title: 'Hoàn thiện luồng duyệt việc đề xuất từ bản chép lời ghi âm',
     code: 'TASK-841',
     statusLabel: 'Đang thực hiện',
     createdNote: 'Tạo bởi Trợ lý AI và được xác nhận bởi Nguyễn Minh Anh • 14:20, 16/10/2024',
     source: {
-      title: 'Bản ghi âm: Họp sprint planning tuần 41',
+      title: 'Ghi âm: Họp sprint planning tuần 41',
       location: 'Mốc 12:34',
-      quote: '“Tôi đồng ý. Bản ghi âm này sau khi bóc băng xong sẽ sinh ra các ghost task có viền nét đứt màu tím để người dùng bấm xác nhận.”',
+      quote: '“Tôi đồng ý. Bản ghi âm này sau khi bóc băng xong sẽ sinh ra các việc đề xuất có viền nét đứt màu tím để người dùng bấm xác nhận.”',
     },
     assignee: NA,
     due: { label: '18/10/2024 (Quá hạn)', overdue: true },
-    priorityLabel: 'High (Ưu tiên cao)',
+    priorityLabel: 'Cao',
     labels: [{ text: 'UI/UX', tone: 'primary' }, { text: 'AI Core', tone: 'ai' }],
-    description: 'Cần triển khai thành phần Ghost Task hiển thị ngay bên dưới danh sách transcript. Cho phép người dùng duyệt hàng loạt hoặc duyệt từng tác vụ trực tiếp trên bảng.',
+    description: 'Cần triển khai thành phần Việc đề xuất hiển thị ngay bên dưới danh sách transcript. Cho phép người dùng duyệt hàng loạt hoặc duyệt từng tác vụ trực tiếp trên bảng.',
     checklist: [
       { text: 'Tạo CSS token viền nét đứt màu tím 1.5px dashed #7C4DFF', done: true },
       { text: 'Nút bấm Xác nhận (Confirm) và Bỏ qua (Dismiss)', done: true },
@@ -82,16 +83,22 @@ export const taskDetails: Record<string, TaskDetail> = {
       { author: NA, authorLabel: 'Nguyễn Minh Anh', time: '10 phút trước', text: 'Tuyệt vời! Tôi đang hoàn tất tương tác click chip nhảy thẳng tới audio player để QA test luôn chiều nay.' },
     ],
     lastActivity: 'Hoạt động gần nhất 10 phút trước',
+    attachments: [{ name: 'webhook-timestamp-spec.pdf', size: '240 KB' }],
+    history: [
+      { who: 'Nguyễn Minh Anh', text: 'đổi trạng thái từ Cần làm sang Đang làm', time: 'Hôm qua 09:12' },
+      { who: 'Nguyễn Minh Anh', text: 'xác nhận việc đề xuất từ ghi âm', time: '16/10 14:20' },
+      { who: 'Trợ lý AI', text: 'đề xuất việc này từ bản ghi sprint (mốc 12:34)', time: '16/10 13:05' },
+    ],
   },
 }
 
-const statusByColumn = { todo: 'Cần làm', doing: 'Đang thực hiện', review: 'Đang đánh giá', done: 'Hoàn thành' } as const
+export const statusByColumn = { todo: 'Cần làm', doing: 'Đang làm', review: 'Đánh giá', done: 'Hoàn thành' } as const
 
 /** Detail for any task: the real one for t5, a generated stub for the others. */
 export function getTaskDetail(task: BoardTask, column: keyof typeof statusByColumn): TaskDetail {
   const known = taskDetails[task.id]
   if (known) return { ...known, statusLabel: statusByColumn[column] }
-  const n = task.id.replace('t', '')
+  const n = task.id.replace(/\D/g, '') || '0'
   return {
     title: task.title,
     code: `TASK-${830 + Number(n)}`,
@@ -99,11 +106,13 @@ export function getTaskDetail(task: BoardTask, column: keyof typeof statusByColu
     createdNote: 'Tạo bởi Nguyễn Minh Anh • 09:00, 14/10/2024',
     assignee: task.assignee,
     due: task.due ? { label: task.due.label, overdue: task.due.overdue } : { label: 'Chưa đặt hạn' },
-    priorityLabel: task.priority ? { urgent: 'Urgent (Khẩn cấp)', high: 'High (Ưu tiên cao)', medium: 'Medium (Trung bình)', low: 'Low (Thấp)' }[task.priority] : 'Chưa đặt',
+    priorityLabel: task.priority ? priorityLabelVi[task.priority] : 'Chưa đặt',
     labels: task.labels,
     description: 'Chưa có mô tả cho công việc này.',
     checklist: [],
     comments: [],
     lastActivity: 'Chưa có hoạt động',
+    attachments: [],
+    history: [{ who: 'Nguyễn Minh Anh', text: 'tạo việc này', time: '14/10 09:00' }],
   }
 }

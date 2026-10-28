@@ -86,6 +86,7 @@ export function Popover({ label, trigger, children, align = 'right', side = 'bot
           ref={panel}
           id={id}
           role="dialog"
+          data-popover-panel=""
           aria-label={label}
           // Phần tử có data-popover-close: bấm vào thì đóng hộp (dùng cho các mục menu).
           onClick={(e) => {

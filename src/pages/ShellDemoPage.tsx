@@ -27,7 +27,7 @@ export default function ShellDemoPage() {
           </>
         }
       >
-        <FilterBar mineOnly={mine} onMineOnlyChange={setMine} view={view} onViewChange={setView} />
+        <FilterBar chips={[{ key: 'mine', icon: 'person', label: 'Việc của tôi', active: mine, onToggle: () => setMine((m) => !m) }]} activeCount={mine ? 1 : 0} onClear={() => setMine(false)} view={view} onViewChange={setView} />
       </PageHeader>
 
       <div className="flex gap-space-sm pb-space-md">

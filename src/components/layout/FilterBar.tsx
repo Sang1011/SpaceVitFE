@@ -1,19 +1,12 @@
-import type { ReactNode } from 'react'
 import { cn } from '../../lib/cn'
-import { Checkbox, Icon, SearchInput } from '../ui'
+import { Icon, SearchInput } from '../ui'
 
-export function FilterPill({ icon, children, onClick }: { icon: string; children: ReactNode; onClick?: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex h-8 items-center gap-1.5 rounded-lg bg-surface-variant px-2.5 font-body-medium text-body-medium text-[13px] text-text-secondary transition-colors hover:bg-surface-container-high hover:text-text-primary"
-    >
-      <Icon name={icon} size={16} />
-      <span>{children}</span>
-      <span className="material-symbols-outlined text-[14px]">arrow_drop_down</span>
-    </button>
-  )
+export interface FilterChip {
+  key: string
+  icon: string
+  label: string
+  active: boolean
+  onToggle: () => void
 }
 
 export type BoardView = 'kanban' | 'table'
@@ -22,9 +15,11 @@ export interface FilterBarProps {
   searchPlaceholder?: string
   search?: string
   onSearchChange?: (v: string) => void
-  filters?: { icon: string; label: string }[]
-  mineOnly?: boolean
-  onMineOnlyChange?: (v: boolean) => void
+  /** Bộ lọc dạng chip bật/tắt. */
+  chips?: FilterChip[]
+  /** Hiện "Xóa lọc (n)" khi n > 0. */
+  activeCount?: number
+  onClear?: () => void
   view?: BoardView
   onViewChange?: (v: BoardView) => void
   className?: string
@@ -36,16 +31,12 @@ const views: { key: BoardView; icon: string; label: string }[] = [
 ]
 
 export function FilterBar({
-  searchPlaceholder = 'Lọc thẻ trong sprint...',
+  searchPlaceholder = 'Lọc việc trong sprint...',
   search,
   onSearchChange,
-  filters = [
-    { icon: 'person', label: 'Phụ trách: Tất cả' },
-    { icon: 'flag', label: 'Độ ưu tiên' },
-    { icon: 'label', label: 'Nhãn' },
-  ],
-  mineOnly,
-  onMineOnlyChange,
+  chips = [],
+  activeCount = 0,
+  onClear,
   view = 'kanban',
   onViewChange,
   className,
@@ -54,29 +45,43 @@ export function FilterBar({
     <div className={cn('flex flex-wrap items-center justify-between gap-space-md rounded-xl bg-surface p-space-sm shadow-sm', className)}>
       <div className="flex flex-wrap items-center gap-space-sm">
         <div className="w-64">
-          <SearchInput compact placeholder={searchPlaceholder} value={search} onChange={(e) => onSearchChange?.(e.target.value)} />
+          <SearchInput compact placeholder={searchPlaceholder} aria-label="Lọc việc" value={search} onChange={(e) => onSearchChange?.(e.target.value)} />
         </div>
-        {filters.map((f) => (
-          <FilterPill key={f.label} icon={f.icon}>
-            {f.label}
-          </FilterPill>
+        {chips.map((c) => (
+          <button
+            key={c.key}
+            type="button"
+            aria-pressed={c.active}
+            onClick={c.onToggle}
+            className={cn(
+              'flex h-8 items-center gap-1.5 rounded-lg border px-2.5 font-body-medium text-body-medium text-[13px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-brand',
+              c.active ? 'border-brand/40 bg-brand/15 text-brand' : 'border-transparent bg-surface-variant text-text-secondary hover:bg-surface-container-high hover:text-text-primary',
+            )}
+          >
+            <Icon name={c.active ? 'check' : c.icon} size={16} />
+            {c.label}
+          </button>
         ))}
-        <div className="mx-1 h-4 w-px bg-border" />
-        <label className="flex cursor-pointer select-none items-center gap-2 rounded-lg px-2 py-1 hover:bg-surface-variant">
-          <Checkbox checked={mineOnly} onChange={(e) => onMineOnlyChange?.(e.target.checked)} />
-          <span className="font-body-medium text-body-medium text-[13px] text-text-primary">Việc của tôi</span>
-        </label>
+        {activeCount > 0 && (
+          <button
+            type="button"
+            onClick={onClear}
+            className="rounded-lg px-2 py-1 font-body-medium text-body-medium text-[13px] text-brand outline-none hover:underline focus-visible:ring-2 focus-visible:ring-brand"
+          >
+            Xóa lọc ({activeCount})
+          </button>
+        )}
       </div>
-      <div className="flex items-center gap-space-xs">
-        <span className="font-caption text-caption text-text-secondary">Hiển thị:</span>
+      <div role="group" aria-label="Kiểu hiển thị" className="flex items-center gap-space-xs">
         {views.map((v) => (
           <button
             key={v.key}
             type="button"
             aria-label={v.label}
+            title={v.label}
             aria-pressed={view === v.key}
             onClick={() => onViewChange?.(v.key)}
-            className={cn('rounded-lg p-1.5', view === v.key ? 'bg-surface-container text-brand' : 'text-text-secondary hover:bg-surface-variant')}
+            className={cn('rounded-lg p-1.5 outline-none focus-visible:ring-2 focus-visible:ring-brand', view === v.key ? 'bg-surface-container text-brand' : 'text-text-secondary hover:bg-surface-variant')}
           >
             <Icon name={v.icon} size={18} />
           </button>

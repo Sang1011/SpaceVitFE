@@ -34,7 +34,8 @@ export function SidePanel({ open, onClose, title, header, footer, children, defa
   useEffect(() => {
     if (!open) return
     const onKey = (e: globalThis.KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      // Esc trong hộp nổi (menu) chỉ đóng hộp đó, không đóng cả panel.
+      if (e.key === 'Escape' && !(e.target as HTMLElement | null)?.closest?.('[data-popover-panel]')) onClose()
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)

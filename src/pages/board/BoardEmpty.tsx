@@ -22,7 +22,7 @@ export function BoardEmpty() {
           </div>
         </div>
       }
-      title="Chưa có công việc hoặc bản ghi nào trong Space này"
+      title="Chưa có việc hoặc ghi âm nào trong không gian này"
       description="Smart Collaborative Workspace giúp bạn biến cuộc họp, ghi chú và tài liệu thành kiến thức và hành động. Bắt đầu với 3 bước đơn giản dưới đây:"
       actions={
         <>
@@ -46,7 +46,7 @@ export function BoardEmpty() {
         items={[
           { label: 'Tạo Space "Dự án Alpha"', status: 'done' },
           { label: 'Ghi âm cuộc họp đầu tiên hoặc Tải tài liệu PDF/Scan', description: 'AI sẽ tự động bóc băng ghi âm & nhận diện OCR trích xuất nội dung', status: 'current' },
-          { label: 'Hỏi Trợ lý AI hoặc tạo công việc đầu tiên', description: 'Tạo ghost task trực tiếp từ các Action Items được AI gợi ý', status: 'todo' },
+          { label: 'Hỏi Trợ lý AI hoặc tạo công việc đầu tiên', description: 'Duyệt việc đề xuất do AI gợi ý từ cuộc họp', status: 'todo' },
         ]}
       />
     </EmptyState>

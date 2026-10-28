@@ -76,4 +76,6 @@ export interface TaskDetail {
   checklist: TaskChecklistItem[]
   comments: TaskComment[]
   lastActivity: string
+  attachments: { name: string; size: string }[]
+  history: { who: string; text: string; time: string }[]
 }
