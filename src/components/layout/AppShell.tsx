@@ -5,6 +5,7 @@ import { DOCK_QUERY } from '../../lib/breakpoints'
 import { useMediaQuery } from '../../lib/useMediaQuery'
 import { AssistantPanel } from './AssistantPanel'
 import { pageLabelFor } from './nav'
+import { useAssistantChat } from './useAssistantChat'
 import { ShellContext, useDockCount, type ShellCtx } from './shell-context'
 import { Sidebar } from './Sidebar'
 import { TopBar } from './TopBar'
@@ -14,19 +15,28 @@ import { TopBar } from './TopBar'
  * Khi có panel gắn cạnh nội dung (Trợ lý hoặc panel chi tiết) và màn đủ rộng, Sidebar thu về dạng icon.
  */
 export function AppShell() {
-  const { space } = useWorkspace()
+  const { space, aiStatus } = useWorkspace()
   const { pathname } = useLocation()
   const [assistantOpen, setAssistantOpen] = useState(false)
   const docks = useDockCount()
   const wide = useMediaQuery(DOCK_QUERY)
   const compact = wide && (assistantOpen || docks > 0)
+  const chat = useAssistantChat(pageLabelFor(pathname), space.name, aiStatus === 'offline')
+  const { send } = chat
 
   const openAssistant = useCallback(() => setAssistantOpen(true), [])
   const closeAssistant = useCallback(() => setAssistantOpen(false), [])
   const toggleAssistant = useCallback(() => setAssistantOpen((o) => !o), [])
+  const askAssistant = useCallback(
+    (q: string) => {
+      setAssistantOpen(true)
+      send(q)
+    },
+    [send],
+  )
   const shell = useMemo<ShellCtx>(
-    () => ({ assistantOpen, openAssistant, closeAssistant, toggleAssistant, compact }),
-    [assistantOpen, openAssistant, closeAssistant, toggleAssistant, compact],
+    () => ({ assistantOpen, openAssistant, closeAssistant, toggleAssistant, askAssistant, compact }),
+    [assistantOpen, openAssistant, closeAssistant, toggleAssistant, askAssistant, compact],
   )
 
   return (
@@ -38,7 +48,7 @@ export function AppShell() {
           <main className="relative min-h-[calc(100vh-64px)] min-w-0 flex-1 bg-background p-8">
             <Outlet />
           </main>
-          <AssistantPanel open={assistantOpen} onClose={closeAssistant} />
+          <AssistantPanel open={assistantOpen} onClose={closeAssistant} chat={chat} />
         </div>
       </div>
     </ShellContext.Provider>

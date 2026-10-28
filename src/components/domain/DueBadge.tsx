@@ -7,12 +7,13 @@ export interface DueBadgeProps {
   className?: string
 }
 
+/** Quá hạn dùng màu cam kèm icon, khác với đỏ của độ ưu tiên Khẩn cấp để hai tín hiệu không lẫn nhau. */
 export function DueBadge({ label, overdue, className }: DueBadgeProps) {
   return (
     <span
       className={cn(
         'inline-flex items-center gap-1 font-caption text-caption text-[12px]',
-        overdue ? 'font-medium text-status-error-text' : 'text-text-secondary',
+        overdue ? 'font-semibold text-status-warning-text' : 'text-text-secondary',
         className,
       )}
     >

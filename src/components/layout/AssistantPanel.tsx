@@ -5,12 +5,7 @@ import { cn } from '../../lib/cn'
 import { Badge, Icon, IconButton, SidePanel } from '../ui'
 import { PromptChip } from '../domain/PromptChip'
 import { pageLabelFor } from './nav'
-
-interface Msg {
-  id: number
-  from: 'user' | 'ai'
-  text: string
-}
+import type { AssistantChat } from './useAssistantChat'
 
 const promptsByPage: Record<string, string[]> = {
   'Tổng quan': ['Việc nào đang quá hạn và ai phụ trách?', 'Có gì cần tôi duyệt hôm nay?'],
@@ -22,34 +17,23 @@ const promptsByPage: Record<string, string[]> = {
 const fallbackPrompts = ['Tóm tắt những gì mới trong không gian này']
 
 /** Panel Trợ lý trượt bên phải (D3). Biết trang đang xem; hội thoại đầy đủ nằm ở trang Trợ lý AI. */
-export function AssistantPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function AssistantPanel({ open, onClose, chat }: { open: boolean; onClose: () => void; chat: AssistantChat }) {
   const { pathname } = useLocation()
   const { aiStatus, space } = useWorkspace()
   const context = pageLabelFor(pathname)
   const offline = aiStatus === 'offline'
-  const [msgs, setMsgs] = useState<Msg[]>([])
+  const { msgs, send: sendChat } = chat
   const [draft, setDraft] = useState('')
-  const next = useRef(1)
   const end = useRef<HTMLDivElement>(null)
-  const timer = useRef<number | undefined>(undefined)
 
-  useEffect(() => () => window.clearTimeout(timer.current), [])
   useEffect(() => {
     end.current?.scrollIntoView?.({ block: 'end' })
   }, [msgs])
 
   const send = (text: string) => {
-    const t = text.trim()
-    if (!t || offline) return
-    setMsgs((m) => [...m, { id: next.current++, from: 'user', text: t }])
+    if (!text.trim() || offline) return
+    sendChat(text)
     setDraft('')
-    window.clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => {
-      setMsgs((m) => [
-        ...m,
-        { id: next.current++, from: 'ai', text: `(Mô phỏng) Mình sẽ trả lời dựa trên "${context}" của ${space.name}. Khi nối máy chủ, câu trả lời kèm nguồn trích dẫn sẽ hiện ở đây.` },
-      ])
-    }, 600)
   }
 
   const prompts = promptsByPage[context] ?? fallbackPrompts

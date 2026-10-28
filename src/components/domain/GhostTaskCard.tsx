@@ -1,6 +1,5 @@
 import { cn } from '../../lib/cn'
-import { Avatar, Button, Checkbox, Icon, PriorityDot, type Priority } from '../ui'
-import { priorityLabelVi } from '../../lib/terms'
+import { Avatar, Button, Checkbox, Icon, PriorityChip, type Priority } from '../ui'
 import { SourceChip, type SourceChipProps } from './SourceChip'
 
 export interface GhostTaskCardProps {
@@ -50,7 +49,7 @@ export function GhostTaskCard({
             Bỏ qua
           </Button>
           <Button size="sm" icon="add_task" className="px-3.5 text-[12px]" onClick={onConfirm} lockedReason={lockedReason}>
-            Tạo task
+            Tạo việc
           </Button>
         </div>
       </div>
@@ -64,7 +63,7 @@ export function GhostTaskCard({
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-card-title text-card-title leading-tight text-text-primary">{title}</h3>
-            {priority && <PriorityDot level={priority} variant="badge" label={priorityLabelVi[priority] === 'Khẩn cấp' ? 'Urgent' : undefined} />}
+            {priority && <PriorityChip level={priority} />}
           </div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-caption text-caption text-text-secondary">
             <div className="flex items-center gap-1.5">
@@ -98,7 +97,7 @@ export function GhostTaskCard({
               Bỏ qua
             </button>
             <Button size="xs" icon="check" className="h-auto px-3 py-1 font-caption text-caption" onClick={onConfirm} lockedReason={lockedReason}>
-              Tạo task
+              Tạo việc
             </Button>
           </div>
         </div>

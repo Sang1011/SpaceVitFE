@@ -5,6 +5,8 @@ export interface ShellCtx {
   openAssistant: () => void
   closeAssistant: () => void
   toggleAssistant: () => void
+  /** Mở panel Trợ lý và gửi sẵn một câu hỏi (ô hỏi nhanh ở Tổng quan dùng). */
+  askAssistant: (question: string) => void
   /** Sidebar thu về dạng icon khi có panel gắn cạnh nội dung đang mở. */
   compact: boolean
 }
