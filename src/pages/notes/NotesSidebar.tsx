@@ -10,7 +10,7 @@ export function NotesSidebar({ activeId, onSelect, onCreate, canEdit }: { active
   const match = (t: string) => !needle || t.toLowerCase().includes(needle)
 
   return (
-    <aside className="flex w-[240px] shrink-0 flex-col justify-between overflow-hidden bg-surface shadow-sm">
+    <aside className="flex w-[240px] shrink-0 flex-col overflow-hidden bg-surface shadow-sm">
       <div className="flex flex-col gap-2.5 p-3">
         <div className="flex items-center justify-between">
           <span className="font-section-title text-section-title text-[14px] text-text-primary">Ghi chú Space</span>
@@ -20,7 +20,7 @@ export function NotesSidebar({ activeId, onSelect, onCreate, canEdit }: { active
         </div>
         <div className="relative flex items-center">
           <Icon name="search" size={16} className="absolute left-2.5 text-text-secondary" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Tìm kiếm ghi chú..." className="h-8 w-full rounded bg-surface-variant pl-8 pr-2.5 font-body-default text-body-default text-[12px] text-text-primary transition-all placeholder:text-text-secondary focus:bg-surface focus:outline-none focus:ring-2 focus:ring-brand" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} aria-label="Lọc ghi chú" placeholder="Lọc ghi chú..." className="h-8 w-full rounded bg-surface-variant pl-8 pr-2.5 font-body-default text-body-default text-[12px] text-text-primary transition-all placeholder:text-text-secondary focus:bg-surface focus:outline-none focus:ring-2 focus:ring-brand" />
         </div>
       </div>
 
@@ -73,10 +73,6 @@ export function NotesSidebar({ activeId, onSelect, onCreate, canEdit }: { active
         </div>
       </div>
 
-      <div className="flex items-center justify-between bg-surface-variant/40 p-3">
-        <div className="flex items-center gap-2"><Icon name="cloud_done" size={18} className="text-status-success-text" /><span className="font-caption text-caption text-[11px] text-text-secondary">Đã đồng bộ cục bộ</span></div>
-        <span className="font-label-mono text-label-mono text-[10px] text-text-secondary">v2.1</span>
-      </div>
     </aside>
   )
 }

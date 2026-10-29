@@ -35,16 +35,19 @@ export const mainNote = {
 }
 
 export const presetRewrite =
-  'Hệ thống xử lý chuyển đổi giọng nói thành văn bản (STT) theo cơ chế streaming/chunking thời gian thực; khi xảy ra sự cố gián đoạn, cung cấp tùy chọn khôi phục và chỉ thử lại các phân đoạn lỗi (retry failed chunks).'
+  'Hệ thống chép lời giọng nói theo từng đoạn, trả kết quả gần như ngay khi có; nếu gián đoạn, cho phép người dùng chỉ thử lại những đoạn bị lỗi.'
 
 export const aiActions = [
   { key: 'rewrite', label: 'Viết lại', style: 'Chuyên nghiệp kỹ thuật' },
   { key: 'summarize', label: 'Tóm tắt', style: 'Ngắn gọn' },
+  { key: 'tasks', label: 'Trích xuất việc', style: 'Việc cần làm' },
   { key: 'shorten', label: 'Rút gọn', style: 'Súc tích' },
   { key: 'grammar', label: 'Sửa ngữ pháp', style: 'Chuẩn ngữ pháp' },
   { key: 'pro', label: 'Chuyên nghiệp hơn', style: 'Chuyên nghiệp' },
-  { key: 'tasks', label: 'Trích xuất Task', style: 'Việc cần làm' },
 ] as const
+
+/** Số nút AI hiện thẳng trên thanh; phần còn lại nằm trong "Thêm". */
+export const AI_PRIMARY_COUNT = 3
 
 export const diagram = {
   file: 'arch_v4_final.svg',
@@ -55,15 +58,6 @@ export const diagram = {
   ] as const,
 }
 
-export const detectedActions = '1. Cấu hình cơ chế Retry failed chunks cho pipeline · 2. Đo benchmark p99 latency trước ngày 15/10.'
-
-export const viewers = [
-  { initials: 'NA', tone: 'brand-muted' as const },
-  { initials: 'HL', tone: 'ai' as const },
-  { initials: 'TM', tone: 'neutral' as const },
-  { initials: 'BK', tone: 'muted' as const },
-]
-
 export const sidePanel = {
   origin: { chip: 'Ghi âm cuộc họp', time: '42:15', title: 'Họp sprint tuần 40', cite: 'Đoạn trích 14:20' },
   backlinks: [
@@ -73,3 +67,27 @@ export const sidePanel = {
   task: { code: 'TASK-142', title: 'Setup Redis Sentinel cho streaming buffer STT', due: 'Hạn: 18/10', assignee: 'HL' },
   files: [{ id: 'f1', name: 'benchmark_result.pdf', size: '1.8 MB' }],
 }
+
+export const retryRewrite =
+  'Hệ thống chép lời cần phản hồi nhanh để người dùng không phải chờ lâu. Khi có lỗi, chỉ những đoạn hỏng được chép lại.'
+
+import type { RecGhost } from './recording'
+
+/** Việc AI đề xuất từ ghi chú (chưa là dữ liệu chính thức). `sourceAt` là mục trong ghi chú. */
+export const noteSuggestions: RecGhost[] = [
+  { id: 'ns1', title: 'Cấu hình cơ chế thử lại đoạn lỗi cho luồng xử lý', priority: 'high', assignee: 'Trần Minh', due: '', sourceAt: 'Mục 2', inferred: { assignee: false, due: false }, checked: false },
+  { id: 'ns2', title: 'Đo độ trễ p99 trước ngày 15/10', priority: 'medium', assignee: 'Lê Thu Hà', due: '2024-10-15', sourceAt: 'Mục 2', inferred: { assignee: true, due: true }, checked: false },
+]
+
+export interface NoteComment { id: string; author: string; initials: string; time: string; text: string }
+export const noteComments: NoteComment[] = [
+  { id: 'c1', author: 'Lê Thu Hà', initials: 'HL', time: '10 phút trước', text: 'Mục 2 nên ghi rõ ngưỡng p99 là bao nhiêu mili giây.' },
+  { id: 'c2', author: 'Trần Minh', initials: 'TM', time: '1 giờ trước', text: 'Đã bổ sung sơ đồ ở mục 3, anh chị xem giúp.' },
+]
+
+export interface NoteVersion { id: string; when: string; author: string; note: string }
+export const noteVersions: NoteVersion[] = [
+  { id: 'v3', when: 'Hiện tại', author: 'Nguyễn Minh Anh', note: 'Bản đang xem' },
+  { id: 'v2', when: '14:20 hôm nay', author: 'Trần Minh', note: 'Thêm sơ đồ luồng dữ liệu' },
+  { id: 'v1', when: 'Hôm qua 17:05', author: 'Nguyễn Minh Anh', note: 'Bản nháp đầu tiên' },
+]
