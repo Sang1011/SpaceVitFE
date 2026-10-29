@@ -3,6 +3,7 @@ import { AppShell } from './components/layout'
 import { WorkspaceProvider } from './context/WorkspaceContext'
 import OverviewPage from './pages/overview/OverviewPage'
 import RecordingPage from './pages/recording/RecordingPage'
+import RecordingsPage from './pages/recording/RecordingsPage'
 import AssistantPage from './pages/assistant/AssistantPage'
 import NotesPage from './pages/notes/NotesPage'
 import BoardPage from './pages/board/BoardPage'
@@ -30,7 +31,7 @@ export default function App() {
               <Route path="/_shell" element={<ShellDemoPage />} />
               <Route path="/tong-quan" element={<OverviewPage />} />
               <Route path="/ghi-chu" element={<NotesPage />} />
-              <Route path="/ghi-am" element={<Navigate to="/ghi-am/demo" replace />} />
+              <Route path="/ghi-am" element={<RecordingsPage />} />
               <Route path="/ghi-am/:id" element={<RecordingPage />} />
               <Route path="/tai-lieu" element={<PlaceholderPage title="Tài liệu" icon="folder" />} />
               <Route path="/bang-cong-viec" element={<BoardPage />} />

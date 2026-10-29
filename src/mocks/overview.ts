@@ -36,7 +36,7 @@ export type RecentItem =
   | { id: string; kind: 'processing'; title: string; jobId: string; eta: string; stage: string; detail: string; percent: number; queue: string }
 
 export const recentItems: RecentItem[] = [
-  { id: 'r1', kind: 'done', icon: 'graphic_eq', iconTone: 'success', title: 'Họp sprint planning tuần 41', badge: 'Hoàn tất', meta: ['56:14', '12 việc đã tạo'], metaStrong: 1, ai: true, action: { icon: 'play_arrow', label: 'Nghe lại' } },
+  { id: 'r1', kind: 'done', icon: 'graphic_eq', iconTone: 'success', title: 'Họp sprint planning tuần 41', badge: 'Hoàn tất', meta: ['52:14', '3 việc đề xuất'], metaStrong: 1, ai: true, action: { icon: 'play_arrow', label: 'Nghe lại' } },
   { id: 'r2', kind: 'processing', title: 'Phỏng vấn người dùng #04', jobId: 'job_8F3A21', eta: 'Ước tính ~2 phút còn lại', stage: 'Đang chuyển giọng nói thành văn bản', detail: 'Tiến trình xử lý: Đoạn chunk 5/8', percent: 62, queue: 'Hàng đợi: STT Whisper v3-turbo' },
   { id: 'r3', kind: 'done', icon: 'picture_as_pdf', iconTone: 'brand', title: 'Hợp đồng dịch vụ đám mây Q4.pdf', badge: 'OCR Hoàn tất', meta: ['14 trang', '3 bảng tính biểu giá trích xuất', '1.8 MB'], action: { icon: 'visibility', label: 'Mở tài liệu' } },
 ]
