@@ -40,7 +40,7 @@ function DraggableCard({ task, variant, compact, draggable, aiPaused, onOpen }: 
       {...listeners}
       tabIndex={0}
       role="button"
-      aria-label={`${task.title}. Enter để mở${draggable ? ', Space để nhấc và kéo' : ''}`}
+      aria-description={`Enter để mở${draggable ? ', Space để nhấc và kéo' : ''}`}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault()
@@ -127,7 +127,7 @@ export function KanbanColumn({ column, selectedId, canEdit, aiPaused, compact, s
           <span>Thêm thẻ</span>
         </button>
       ) : (
-        <div title="Chế độ chỉ xem - Không thể thêm thẻ mới" className="flex w-full cursor-not-allowed select-none items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-surface/30 py-2 font-body-medium text-[12px] text-text-secondary/70">
+        <div title="Chế độ chỉ xem - Không thể thêm thẻ mới" className="flex w-full cursor-not-allowed select-none items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-surface/30 py-2 font-body-medium text-[12px] text-text-secondary">
           <Icon name="lock" size={16} />
           <span>Thêm thẻ (Chỉ xem)</span>
         </div>

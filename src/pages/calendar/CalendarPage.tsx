@@ -40,7 +40,7 @@ function Chip({ e, selected, onOpen }: { e: CalEvent; selected: boolean; onOpen:
     <button
       type="button"
       onClick={() => onOpen(e.id)}
-      aria-label={`${k.label}: ${e.title}${e.time ? `, ${e.time}` : ''}`}
+      aria-label={`${e.time ? `${e.time} ` : ''}${e.title}, ${k.label}`}
       className={cn('flex w-full items-center gap-1 truncate rounded-md px-1.5 py-0.5 text-left font-caption text-[11px] outline-none focus-visible:ring-2 focus-visible:ring-brand', k.chip, selected && 'ring-2 ring-brand', e.done && 'line-through opacity-60')}
     >
       <Icon name={k.icon} size={13} className="shrink-0" />
@@ -174,7 +174,7 @@ export default function CalendarPage() {
               <section key={d} aria-label={`${weekdays[i]} ${dm(d)}`} className="min-h-[160px] space-y-1.5 rounded-xl bg-surface p-2 shadow-sm">
                 <h3 className="flex items-center gap-1 font-caption text-caption font-semibold text-text-secondary">{weekdays[i]} {dayHeader(d)}</h3>
                 {byDate(d).map((e) => <Chip key={e.id} e={e} selected={e.id === selId} onOpen={setSelId} />)}
-                {byDate(d).length === 0 && <p className="font-caption text-[11px] text-text-secondary/70">Trống</p>}
+                {byDate(d).length === 0 && <p className="font-caption text-[11px] text-text-secondary">Trống</p>}
               </section>
             ))}
           </div>

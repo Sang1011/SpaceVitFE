@@ -38,7 +38,7 @@ export default function NotesPage() {
   const [savedAt, setSavedAt] = useState('14:35')
   const [suggestions, setSuggestions] = useState<RecGhost[]>(noteSuggestions)
   const [comments, setComments] = useState<NoteComment[]>(noteComments)
-  const scroller = useRef<HTMLElement>(null)
+  const scroller = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (params.get('role') === 'viewer') setRole('viewer')
@@ -160,7 +160,7 @@ export default function NotesPage() {
       <div className="-mx-4 -mb-4 -mt-24 flex md:-mx-8 md:-mb-8 h-screen w-auto overflow-hidden bg-background pt-16">
         {foldersOpen && <NotesSidebar activeId={activeId} onSelect={(id) => { setActiveId(id); setSel(null); setDiff(null) }} onCreate={touch} canEdit={canEdit} />}
 
-        <main ref={scroller} className="flex min-w-0 flex-1 flex-col overflow-y-auto bg-background" onMouseUp={onMouseUp}>
+        <div ref={scroller} className="flex min-w-0 flex-1 flex-col overflow-y-auto bg-background" onMouseUp={onMouseUp}>
           <EditorToolbar
             savedAt={savedAt}
             foldersOpen={foldersOpen}
@@ -242,7 +242,7 @@ export default function NotesPage() {
               </div>
             </div>
           )}
-        </main>
+        </div>
 
         <NotesPanel
           open={panelOpen}

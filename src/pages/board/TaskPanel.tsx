@@ -190,7 +190,7 @@ export function TaskPanel({ detail, status, priority, readOnly, focusTitle, onCh
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5">
               <Icon name="verified" size={18} className="text-brand" />
-              <h3 className="font-card-title text-card-title text-[14px] text-text-primary">Nguồn</h3>
+              <h2 className="font-card-title text-card-title text-[14px] text-text-primary">Nguồn</h2>
             </div>
             <Badge tone="ai" className="font-semibold">Tạo từ AI</Badge>
           </div>
@@ -240,7 +240,7 @@ export function TaskPanel({ detail, status, priority, readOnly, focusTitle, onCh
       </div>
 
       <section className="space-y-space-sm">
-        <h4 className="font-card-title text-card-title text-[15px] text-text-primary">Mô tả</h4>
+        <h2 className="font-card-title text-card-title text-[15px] text-text-primary">Mô tả</h2>
         <textarea
           rows={4}
           value={detail.description}
@@ -254,7 +254,7 @@ export function TaskPanel({ detail, status, priority, readOnly, focusTitle, onCh
 
       <section className="space-y-space-sm border-t border-border pt-2">
         <div className="flex items-center justify-between">
-          <h4 className="font-card-title text-card-title text-[15px] text-text-primary">Đính kèm ({files.length})</h4>
+          <h2 className="font-card-title text-card-title text-[15px] text-text-primary">Đính kèm ({files.length})</h2>
           <Button
             variant="outline"
             size="xs"
@@ -297,7 +297,7 @@ export function TaskPanel({ detail, status, priority, readOnly, focusTitle, onCh
       <section className="space-y-space-md border-t border-border pt-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h4 className="font-card-title text-card-title text-[15px] text-text-primary">Trao đổi</h4>
+            <h2 className="font-card-title text-card-title text-[15px] text-text-primary">Trao đổi</h2>
             <Badge>{detail.comments.length}</Badge>
           </div>
           <span className="font-caption text-caption text-text-secondary">{detail.lastActivity}</span>

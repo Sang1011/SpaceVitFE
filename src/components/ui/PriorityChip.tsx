@@ -6,7 +6,7 @@ import type { Priority } from './PriorityDot'
 const tone: Record<Priority, string> = {
   urgent: 'bg-status-error/15 text-status-error-text',
   high: 'bg-status-warning/15 text-status-warning-text',
-  medium: 'bg-brand/15 text-brand',
+  medium: 'bg-brand/10 text-brand',
   low: 'bg-priority-low/15 text-text-secondary',
 }
 /** Hình cờ đặc cho Khẩn cấp/Cao, cờ viền cho Trung bình/Thấp: phân biệt được khi không có màu. */

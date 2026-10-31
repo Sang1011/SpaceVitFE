@@ -12,11 +12,11 @@ export function MemberMenu() {
         <button
           type="button"
           {...p}
-          aria-label={`Thành viên (${members.length})`}
           title="Thành viên và mời người"
           className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
         >
-          <AvatarStack members={members} max={3} />
+          <span className="sr-only">Thành viên ({members.length})</span>
+          <span aria-hidden="true"><AvatarStack members={members} max={3} /></span>
         </button>
       )}
     >

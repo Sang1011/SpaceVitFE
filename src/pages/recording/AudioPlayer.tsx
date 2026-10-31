@@ -69,18 +69,14 @@ export function AudioPlayer({ position, onPositionChange, frozen }: AudioPlayerP
           if (e.key === 'ArrowRight') skip(10)
           if (e.key === 'ArrowLeft') skip(-10)
         }}
+        onClick={(e) => {
+          const r = e.currentTarget.getBoundingClientRect()
+          onPositionChange(Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * total)
+        }}
         className="flex h-8 min-w-0 flex-1 cursor-pointer items-center justify-between gap-px overflow-hidden rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-brand"
       >
         {bars.map((h, i) => (
-          <button
-            key={i}
-            type="button"
-            tabIndex={-1}
-            aria-hidden="true"
-            onClick={() => onPositionChange((i / bars.length) * total)}
-            style={{ height: h }}
-            className={cn('w-[3px] shrink-0 rounded-full', i < playhead ? 'bg-brand' : i === playhead ? 'bg-recording-red' : 'bg-text-secondary/30')}
-          />
+          <span key={i} aria-hidden="true" style={{ height: h }} className={cn('w-[3px] shrink-0 rounded-full', i < playhead ? 'bg-brand' : i === playhead ? 'bg-recording-red' : 'bg-text-secondary/30')} />
         ))}
       </div>
       <label className="flex shrink-0 items-center">

@@ -5,15 +5,18 @@ const tones = { ai: 'bg-ai-accent', brand: 'bg-brand', success: 'bg-status-succe
 export interface ProgressBarProps {
   /** 0-100 */
   value: number
+  /** Tên đọc cho trình đọc màn hình. */
+  label?: string
   tone?: keyof typeof tones
   className?: string
 }
 
-export function ProgressBar({ value, tone = 'ai', className }: ProgressBarProps) {
+export function ProgressBar({ value, label = 'Tiến độ xử lý', tone = 'ai', className }: ProgressBarProps) {
   const v = Math.max(0, Math.min(100, value))
   return (
     <div
       role="progressbar"
+      aria-label={label}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={v}

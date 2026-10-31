@@ -11,7 +11,7 @@ export const badgeVariants = cva('inline-flex shrink-0 items-center gap-1 whites
       'primary-solid': 'bg-primary-container text-on-primary',
       ai: 'bg-ai-container text-ai-accent',
       'ai-strong': 'bg-secondary-fixed text-ai-accent',
-      success: 'bg-status-success/15 text-status-success-text',
+      success: 'bg-status-success/10 text-status-success-text',
       warning: 'bg-status-warning/15 text-status-warning-text',
       error: 'bg-status-error/15 text-status-error-text',
       'error-solid': 'bg-error-solid text-on-solid',

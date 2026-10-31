@@ -183,10 +183,10 @@ export function ActionProposal({ m, canEdit, onConfirm, onCancel, onUndo, onChan
       <p className="font-body-default text-body-default text-text-secondary">{m.intro}</p>
       <div className={cn('space-y-3 rounded-xl p-4 transition-colors', pending ? 'border-[1.5px] border-dashed border-ai-accent bg-surface' : 'border border-border bg-surface-variant/50')}>
         <div className="flex items-center justify-between gap-3">
-          <h3 className="flex items-center gap-2 font-card-title text-card-title text-text-primary">
+          <h2 className="flex items-center gap-2 font-card-title text-card-title text-text-primary">
             <Icon name="notification_add" size={20} className="text-ai-accent" />
             Nhắc nhở mới
-          </h3>
+          </h2>
           <span className={cn('rounded-md px-2 py-0.5 font-caption text-caption font-semibold', m.state === 'confirmed' ? 'bg-status-success/15 text-status-success-text' : m.state === 'cancelled' ? 'bg-surface-variant text-text-secondary' : 'bg-ai-container text-ai-accent')}>
             {m.state === 'confirmed' ? 'Đã tạo' : m.state === 'cancelled' ? 'Đã hủy' : 'Chờ xác nhận'}
           </span>

@@ -41,7 +41,7 @@ export function SourceChip({ kind, label, location, tone, size, onClick, classNa
     <>
       <Icon name={icon.name} size={13} className={icon.color} />
       {label && <span className="max-w-[140px] truncate">{label}</span>}
-      {location && <span className={label ? 'text-text-secondary/70' : undefined}>{label ? `· ${location}` : location}</span>}
+      {location && <span className={label ? 'text-text-secondary' : undefined}>{label ? `· ${location}` : location}</span>}
     </>
   )
   const cls = cn(chip({ tone, size, interactive: !!onClick }), className)
