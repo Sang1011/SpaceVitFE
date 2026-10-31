@@ -20,7 +20,11 @@ export function AppShell() {
   const [assistantOpen, setAssistantOpen] = useState(false)
   const docks = useDockCount()
   const wide = useMediaQuery(DOCK_QUERY)
-  const compact = wide && (assistantOpen || docks > 0)
+  const tablet = useMediaQuery('(min-width: 768px)')
+  const mobile = !tablet
+  const [menuOpen, setMenuOpen] = useState(false)
+  // Từ 768px: Sidebar là thanh icon; từ 1100px: đầy đủ, chỉ thu khi có panel gắn cạnh. Dưới 768px: ngăn kéo.
+  const compact = !mobile && (!wide || assistantOpen || docks > 0)
   const chat = useAssistantChat(pageLabelFor(pathname), space.name, aiStatus === 'offline')
   const { send } = chat
 
@@ -41,11 +45,11 @@ export function AppShell() {
 
   return (
     <ShellContext.Provider value={shell}>
-      <Sidebar compact={compact} />
-      <div className={`flex min-h-screen flex-col bg-background transition-[padding] duration-200 ${compact ? 'pl-[72px]' : 'pl-[264px]'}`}>
-        <TopBar breadcrumb={[space.name, pageLabelFor(pathname)]} compact={compact} />
+      <Sidebar compact={compact} mobile={mobile} open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <div className={`flex min-h-screen flex-col bg-background transition-[padding] duration-200 ${mobile ? 'pl-0' : compact ? 'pl-[72px]' : 'pl-[264px]'}`}>
+        <TopBar breadcrumb={[space.name, pageLabelFor(pathname)]} compact={compact} mobile={mobile} onMenu={() => setMenuOpen(true)} />
         <div className="flex flex-1 items-start pt-16">
-          <main className="relative min-h-[calc(100vh-64px)] min-w-0 flex-1 bg-background p-8">
+          <main className="relative min-h-[calc(100vh-64px)] min-w-0 flex-1 bg-background p-4 md:p-8">
             <Outlet />
           </main>
           <AssistantPanel open={assistantOpen} onClose={closeAssistant} chat={chat} />

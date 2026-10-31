@@ -124,7 +124,7 @@ export default function AssistantPage() {
   }
 
   return (
-    <div className="-mb-8 flex items-start gap-space-lg">
+    <div className="-mb-4 flex items-start md:-mb-8 gap-space-lg">
       <aside aria-label="Hội thoại" className={cn('sticky top-[72px] hidden w-60 shrink-0 flex-col gap-space-sm', row ? '2xl:flex' : 'lg:flex')}>
         <Button icon="add_comment" onClick={newConversation} className="w-full">Hội thoại mới</Button>
         <ul className="space-y-1">

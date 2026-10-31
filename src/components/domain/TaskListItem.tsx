@@ -27,9 +27,9 @@ export function TaskListItem({ title, priority, source, due, assignee, checked, 
     const hasMore = Boolean(source || assignee)
     return (
       <div className={cn('rounded-xl bg-surface-container-low transition-colors hover:bg-surface-container', className)}>
-        <div className="flex items-center gap-3 px-3.5 py-2.5">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3.5 py-2.5">
           <Checkbox checked={checked} disabled={disabled} onChange={(e) => onCheckedChange?.(e.target.checked)} aria-label={`Hoàn thành: ${title}`} />
-          <span className={cn('min-w-0 flex-1 truncate font-body-medium text-body-medium text-text-primary', checked && 'text-text-secondary line-through')}>{title}</span>
+          <span className={cn('min-w-0 flex-1 basis-[calc(100%-4rem)] font-body-medium text-body-medium text-text-primary sm:basis-0 sm:truncate', checked && 'text-text-secondary line-through')}>{title}</span>
           {due && <DueBadge {...due} className="shrink-0" />}
           <PriorityChip level={priority} className="shrink-0" />
           {hasMore && (

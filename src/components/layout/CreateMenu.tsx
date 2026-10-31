@@ -18,8 +18,8 @@ export function CreateMenu() {
       label="Tạo mới"
       panelClassName="w-56"
       trigger={(p) => (
-        <Button {...p} icon="add" className="px-3.5" iconRight="expand_more" lockedReason={canEdit ? undefined : 'Bạn chỉ có quyền xem'}>
-          Tạo mới
+        <Button {...p} icon="add" className="px-3.5 max-sm:px-2" iconRight="expand_more" lockedReason={canEdit ? undefined : 'Bạn chỉ có quyền xem'}>
+          <span className="max-sm:sr-only">Tạo mới</span>
         </Button>
       )}
     >

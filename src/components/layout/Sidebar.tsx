@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { cn } from '../../lib/cn'
 import { useWorkspace } from '../../context/WorkspaceContext'
 import type { SpaceRole } from '../../types/workspace'
@@ -75,10 +76,43 @@ export function UserCard({ compact }: { compact?: boolean }) {
   )
 }
 
-export function Sidebar({ compact }: { compact?: boolean }) {
+export interface SidebarProps {
+  compact?: boolean
+  /** Dưới 768px: Sidebar là ngăn kéo trượt từ trái, mở bằng nút menu ở thanh trên. */
+  mobile?: boolean
+  open?: boolean
+  onClose?: () => void
+}
+
+export function Sidebar({ compact, mobile, open, onClose }: SidebarProps) {
   const { counts } = useWorkspace()
+  const hidden = mobile && !open
+
+  useEffect(() => {
+    if (!mobile || !open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose?.()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [mobile, open, onClose])
+
   return (
-    <aside className={cn('fixed left-0 top-0 z-50 flex h-full flex-col justify-between border-r border-border bg-surface transition-[width] duration-200', compact ? 'w-[72px]' : 'w-[264px]')}>
+    <>
+      {mobile && open && <div aria-hidden="true" onClick={onClose} className="fixed inset-0 z-[55] bg-black/40" />}
+      <aside
+        id="app-sidebar"
+        aria-label="Thanh bên"
+        inert={hidden}
+        onClick={(e) => {
+          if (mobile && (e.target as HTMLElement).closest('a')) onClose?.()
+        }}
+        className={cn(
+          'fixed left-0 top-0 z-[60] flex h-full flex-col justify-between border-r border-border bg-surface transition-[width,transform] duration-200',
+          compact ? 'w-[72px]' : 'w-[264px]',
+          mobile && (open ? 'translate-x-0 shadow-xl' : '-translate-x-full'),
+        )}
+      >
       <div className="flex min-h-0 flex-1 flex-col">
         <SpaceSwitcher compact={compact} />
         <nav aria-label="Điều hướng chính" className="flex-1 space-y-1 overflow-y-auto px-space-sm py-space-md">
@@ -102,5 +136,6 @@ export function Sidebar({ compact }: { compact?: boolean }) {
       </div>
       <UserCard compact={compact} />
     </aside>
+    </>
   )
 }

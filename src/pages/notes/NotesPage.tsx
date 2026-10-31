@@ -157,7 +157,7 @@ export default function NotesPage() {
   return (
     // Outer wrapper: index.css zeroes margin on main's first/last child, so the bleed margins live one level down.
     <div>
-      <div className="-mx-8 -mb-8 -mt-24 flex h-screen w-auto overflow-hidden bg-background pt-16">
+      <div className="-mx-4 -mb-4 -mt-24 flex md:-mx-8 md:-mb-8 h-screen w-auto overflow-hidden bg-background pt-16">
         {foldersOpen && <NotesSidebar activeId={activeId} onSelect={(id) => { setActiveId(id); setSel(null); setDiff(null) }} onCreate={touch} canEdit={canEdit} />}
 
         <main ref={scroller} className="flex min-w-0 flex-1 flex-col overflow-y-auto bg-background" onMouseUp={onMouseUp}>
