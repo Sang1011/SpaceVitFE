@@ -1,4 +1,5 @@
 import type { Priority } from '../components/ui'
+import { myOpenCount } from './myTasks'
 
 type Source = { kind: 'audio' | 'note' | 'document'; label: string; location?: string }
 type Tone = 'container' | 'ai' | 'brand-muted' | 'neutral'
@@ -13,7 +14,7 @@ export interface MyTask {
 }
 
 /** Tổng số việc của tôi: nguồn duy nhất cho badge ở Sidebar và nút "Xem tất cả" ở Tổng quan. */
-export const myTasksTotal = 12
+export const myTasksTotal = myOpenCount
 
 export const myTasks: MyTask[] = [
   { id: 'o1', title: 'Hoàn thiện API đăng nhập & xác thực SSO', priority: 'urgent', source: { kind: 'audio', label: 'Họp sprint 12', location: '12:34' }, due: { label: 'Quá hạn (Hôm qua 18:00)', overdue: true }, assignee: { name: 'Nguyễn Minh Anh', initials: 'NA', tone: 'container' } },
