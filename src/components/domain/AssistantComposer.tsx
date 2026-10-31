@@ -12,11 +12,14 @@ export interface AssistantComposerProps {
   placeholder?: string
   /** Footer note about the data scope. */
   scopeNote?: ReactNode
+  /** Đang chờ AI trả lời: nút Gửi thành Dừng. */
+  busy?: boolean
+  onStop?: () => void
   className?: string
 }
 
 /** Sticky chat dock of the assistant page: suggestion chips + textarea + attach/voice + send. */
-export function AssistantComposer({ prompts = [], value, onChange, onSubmit, placeholder, scopeNote, className }: AssistantComposerProps) {
+export function AssistantComposer({ prompts = [], value, onChange, onSubmit, placeholder, scopeNote, busy, onStop, className }: AssistantComposerProps) {
   const { aiStatus, space } = useWorkspace()
   const offline = aiStatus === 'offline'
   return (
@@ -42,7 +45,7 @@ export function AssistantComposer({ prompts = [], value, onChange, onSubmit, pla
             disabled={offline}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey && value.trim()) {
+              if (e.key === 'Enter' && !e.shiftKey && value.trim() && !busy) {
                 e.preventDefault()
                 onSubmit(value)
               }
@@ -52,17 +55,18 @@ export function AssistantComposer({ prompts = [], value, onChange, onSubmit, pla
           />
           <div className="flex items-center justify-between pt-1">
             <div className="flex items-center gap-1 text-text-secondary">
-              <IconButton icon="attach_file" label="Đính kèm tài liệu phân tích" variant="soft" iconSize={20} className="h-8 w-8 p-0" />
+              <IconButton icon="attach_file" label="Đính kèm tài liệu" variant="soft" iconSize={20} className="h-8 w-8 p-0" />
               <IconButton icon="mic" label="Hỏi bằng giọng nói" variant="soft" iconSize={20} className="h-8 w-8 p-0 hover:text-recording-red" />
-              <div className="mx-1 h-4 w-px bg-border" />
-              <div className="flex items-center gap-1 rounded-md bg-ai-container px-2 py-0.5 font-caption text-caption text-ai-accent">
-                <span>✦</span>
-                <span className="text-[11px] font-medium">RAG + Live Sync</span>
-              </div>
             </div>
-            <Button size="md" iconRight="send" className="font-semibold" disabled={offline || !value.trim()} onClick={() => onSubmit(value)}>
-              Gửi yêu cầu
-            </Button>
+            {busy ? (
+              <Button size="md" variant="outline" icon="stop_circle" onClick={onStop}>
+                Dừng
+              </Button>
+            ) : (
+              <Button size="md" iconRight="send" className="font-semibold" disabled={offline || !value.trim()} onClick={() => onSubmit(value)}>
+                Gửi
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -72,7 +76,7 @@ export function AssistantComposer({ prompts = [], value, onChange, onSubmit, pla
             <Icon name="verified_user" size={16} className="text-[14px] text-status-success-text" />
             <span>{scopeNote}</span>
           </div>
-          <span className="hidden font-label-mono text-[10px] text-text-secondary sm:inline">Nhấn Enter để gửi, Shift + Enter để xuống dòng</span>
+          <span className="hidden font-caption text-[11px] text-text-secondary sm:inline">Enter để gửi, Shift + Enter để xuống dòng</span>
         </div>
       )}
     </div>

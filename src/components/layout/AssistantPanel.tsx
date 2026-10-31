@@ -4,17 +4,9 @@ import { useWorkspace } from '../../context/WorkspaceContext'
 import { cn } from '../../lib/cn'
 import { Badge, Icon, IconButton, SidePanel } from '../ui'
 import { PromptChip } from '../domain/PromptChip'
+import { fallbackPrompts, promptsByPage } from '../../mocks/assistant'
 import { pageLabelFor } from './nav'
 import type { AssistantChat } from './useAssistantChat'
-
-const promptsByPage: Record<string, string[]> = {
-  'Tổng quan': ['Việc nào đang quá hạn và ai phụ trách?', 'Có gì cần tôi duyệt hôm nay?'],
-  'Ghi chú': ['Tóm tắt ghi chú này', 'Rút ra các việc cần làm'],
-  'Ghi âm': ['Tóm tắt cuộc họp này', 'Liệt kê quyết định đã chốt'],
-  'Bảng công việc': ['Việc nào chưa có người phụ trách?', 'Tóm tắt tiến độ sprint'],
-  'Tài liệu': ['Tìm điều khoản bảo mật', 'Tóm tắt tài liệu mới nhất'],
-}
-const fallbackPrompts = ['Tóm tắt những gì mới trong không gian này']
 
 /** Panel Trợ lý trượt bên phải (D3). Biết trang đang xem; hội thoại đầy đủ nằm ở trang Trợ lý AI. */
 export function AssistantPanel({ open, onClose, chat }: { open: boolean; onClose: () => void; chat: AssistantChat }) {
