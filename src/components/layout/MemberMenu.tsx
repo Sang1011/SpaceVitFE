@@ -3,7 +3,7 @@ import { Avatar, AvatarStack, Button, Popover, PopoverLabel, useToast } from '..
 
 /** Cụm avatar thành viên; bấm để xem danh sách và mời thêm người (gộp nút "Mời" cũ vào đây). */
 export function MemberMenu() {
-  const { members, canEdit } = useWorkspace()
+  const { members, lock } = useWorkspace()
   const { toast } = useToast()
   return (
     <Popover
@@ -35,7 +35,7 @@ export function MemberMenu() {
           icon="person_add"
           className="w-full"
           data-popover-close
-          lockedReason={canEdit ? undefined : 'Bạn chỉ có quyền xem'}
+          lockedReason={lock('member.manage')}
           onClick={() => toast({ message: 'Mời thành viên sẽ dùng được khi có kết nối máy chủ.', tone: 'info' })}
         >
           Mời thành viên

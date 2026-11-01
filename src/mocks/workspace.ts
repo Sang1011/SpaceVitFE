@@ -10,12 +10,12 @@ export const mockUser: UserProfile = {
 }
 
 export const mockMembers: Member[] = [
-  { initials: 'TM', name: 'Trần Minh' },
-  { initials: 'HL', name: 'Lê Thu Hà' },
-  { initials: 'ĐQ', name: 'Đặng Quang' },
-  { initials: 'NA', name: 'Nguyễn Minh Anh' },
-  { initials: 'QB', name: 'Trần Quốc Bảo' },
-  { initials: 'BK', name: 'Bùi Khánh' },
+  { initials: 'TM', name: 'Trần Minh', role: 'editor' },
+  { initials: 'HL', name: 'Lê Thu Hà', role: 'editor' },
+  { initials: 'ĐQ', name: 'Đặng Quang', role: 'editor' },
+  { initials: 'NA', name: 'Nguyễn Minh Anh', role: 'owner' },
+  { initials: 'QB', name: 'Trần Quốc Bảo', role: 'viewer' },
+  { initials: 'BK', name: 'Bùi Khánh', role: 'viewer' },
 ]
 
 export const mockCounts = { myTasks: myTasksTotal, hasUnreadNotifications: true }

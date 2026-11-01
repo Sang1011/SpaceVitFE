@@ -22,7 +22,7 @@ type BoardState = 'ready' | 'loading' | 'error'
  * Việc đang mở nằm trong URL (?task=t5) nên chia sẻ được liên kết.
  */
 export default function BoardPage() {
-  const { canEdit, role, setRole, aiStatus, setAiStatus, user } = useWorkspace()
+  const { canEdit, role, setRole, aiStatus, setAiStatus, user, lock: lockFor } = useWorkspace()
   const [params, setParams] = useSearchParams()
   const navigate = useNavigate()
   const { toast } = useToast()
@@ -57,7 +57,7 @@ export default function BoardPage() {
     useSensor(KeyboardSensor, { keyboardCodes: { start: ['Space'], cancel: ['Escape'], end: ['Space'] } }),
   )
   const aiOffline = aiStatus === 'offline'
-  const lock = canEdit ? undefined : 'Bạn chỉ có quyền xem'
+  const lock = lockFor('task.edit')
 
   const filterCount = [mineOnly, highOnly, overdueOnly, search.trim() !== ''].filter(Boolean).length
   const visibleColumns = useMemo(

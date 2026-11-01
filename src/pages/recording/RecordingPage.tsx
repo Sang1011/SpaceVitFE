@@ -23,7 +23,7 @@ function initialStatus(state: string | null, error: string | null, id: string | 
  * (?state=... hoặc ?error=1 để mở sẵn). Viewer: thử lại, đổi ngôn ngữ và duyệt việc đề xuất bị khóa.
  */
 export default function RecordingPage() {
-  const { canEdit, members, setRole } = useWorkspace()
+  const { canEdit, members, setRole, lock } = useWorkspace()
   const { toast } = useToast()
   const { id } = useParams()
   const [params] = useSearchParams()
@@ -37,7 +37,7 @@ export default function RecordingPage() {
   const [jump, setJump] = useState<{ sec: number; n: number } | null>(null)
   const insightsRef = useRef<HTMLDivElement>(null)
   const showDev = import.meta.env.DEV || params.get('dev') === '1'
-  const locked = canEdit ? undefined : 'Bạn chỉ có quyền xem'
+  const locked = lock('task.confirm')
   const stable = useCallback((s: number) => setPosition(s), [])
   const frozen = params.get('still') === '1'
 

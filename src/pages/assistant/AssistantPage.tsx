@@ -17,7 +17,7 @@ const followUps = ['Tóm tắt thành 3 ý', 'Việc nào cần làm tiếp?', '
  * Demo: ?ai=offline, ?ai=quota (lần gửi đầu báo hết lượt Gemini), ?q=... (điền sẵn câu hỏi).
  */
 export default function AssistantPage() {
-  const { space, user, canEdit, aiStatus, setAiStatus } = useWorkspace()
+  const { space, user, canEdit, aiStatus, setAiStatus, lock } = useWorkspace()
   const { toast } = useToast()
   const [params] = useSearchParams()
   const [convs, setConvs] = useState<Conversation[]>(initialConversations)
@@ -31,7 +31,7 @@ export default function AssistantPage() {
   const timer = useRef<number | undefined>(undefined)
   const quota = useRef(params.get('ai') === 'quota')
   const offline = aiStatus === 'offline'
-  const locked = canEdit ? undefined : 'Bạn chỉ có quyền xem'
+  const locked = lock('assistant.act')
 
   useEffect(() => {
     if (params.get('ai') === 'offline') setAiStatus('offline')

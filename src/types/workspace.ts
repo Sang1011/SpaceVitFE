@@ -16,4 +16,5 @@ export interface UserProfile {
 export interface Member {
   initials: string
   name: string
+  role?: SpaceRole
 }

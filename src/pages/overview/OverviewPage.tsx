@@ -16,13 +16,13 @@ const GHOSTS_SHOWN = 2
 type Ghost = (typeof overviewGhostTasks)[number]
 
 export default function OverviewPage() {
-  const { space, user, canEdit } = useWorkspace()
+  const { space, user, canEdit, lock } = useWorkspace()
   const navigate = useNavigate()
   const { toast } = useToast()
   const [ghosts, setGhosts] = useState<Ghost[]>(overviewGhostTasks)
   const [showAllGhosts, setShowAllGhosts] = useState(false)
   const [done, setDone] = useState<Record<string, boolean>>({})
-  const lockedReason = canEdit ? undefined : 'Bạn chỉ có quyền xem'
+  const lockedReason = lock('task.edit')
 
   // Chỉ việc giao cho mình (OV-1).
   const mine = myTasks.filter((t) => t.assignee.initials === user.initials).slice(0, MY_TASKS_SHOWN)

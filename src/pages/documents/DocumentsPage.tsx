@@ -24,7 +24,7 @@ function meta(d: DocItem) {
 
 /** Thư viện tài liệu: tải lên, tìm, lọc theo trạng thái, xem dạng danh sách hoặc lưới. */
 export default function DocumentsPage() {
-  const { canEdit, setRole, user } = useWorkspace()
+  const { canEdit, setRole, user, lock } = useWorkspace()
   const [params] = useSearchParams()
   const [items, setItems] = useState<DocItem[]>(seedDocs)
   const [view, setView] = useState<'list' | 'grid'>('list')
@@ -33,7 +33,7 @@ export default function DocumentsPage() {
   const [over, setOver] = useState(false)
   const input = useRef<HTMLInputElement>(null)
   const seq = useRef(0)
-  const locked = canEdit ? undefined : 'Bạn chỉ có quyền xem'
+  const locked = lock('document.upload')
 
   useEffect(() => {
     if (params.get('role') === 'viewer') setRole('viewer')

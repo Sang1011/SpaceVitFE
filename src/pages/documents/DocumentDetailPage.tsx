@@ -8,7 +8,7 @@ import { docParas, docs, LOW_CONFIDENCE } from '../../mocks/documents'
 /** Xem tài liệu chia đôi: bản gốc | văn bản đã trích xuất. Chọn đoạn ở bên nào thì đoạn tương ứng ở bên kia nổi lên (FR-DOC-07). */
 export default function DocumentDetailPage() {
   const { id } = useParams()
-  const { canEdit, setRole } = useWorkspace()
+  const { setRole, lock } = useWorkspace()
   const { toast } = useToast()
   const [params] = useSearchParams()
   const doc = docs.find((d) => d.id === id) ?? docs[0]
@@ -16,7 +16,7 @@ export default function DocumentDetailPage() {
   const [onlyLow, setOnlyLow] = useState(false)
   const [summary, setSummary] = useState<Record<string, string>>({})
   const textRef = useRef<HTMLDivElement>(null)
-  const locked = canEdit ? undefined : 'Bạn chỉ có quyền xem'
+  const locked = lock('document.ai')
 
   useEffect(() => {
     if (params.get('role') === 'viewer') setRole('viewer')

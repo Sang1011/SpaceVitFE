@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { useWorkspace } from '../../context/WorkspaceContext'
 import { Avatar, Button, Icon, IconButton, PriorityChip } from '../../components/ui'
 import { cn } from '../../lib/cn'
 import { reminderChannels, type ChatMessage, type ReminderChannel, type TaskRow } from '../../mocks/assistant'
@@ -177,6 +178,7 @@ export interface ActionProposalProps {
 }
 
 export function ActionProposal({ m, canEdit, onConfirm, onCancel, onUndo, onChannel }: ActionProposalProps) {
+  const { lock } = useWorkspace()
   const pending = m.state === 'pending'
   return (
     <AiBubble label="AI đề xuất, cần bạn xác nhận" time={m.time}>
@@ -209,7 +211,7 @@ export function ActionProposal({ m, canEdit, onConfirm, onCancel, onUndo, onChan
         </dl>
         {pending && (
           <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-            <Button size="lg" icon="check_circle" onClick={onConfirm} lockedReason={canEdit ? undefined : 'Bạn chỉ có quyền xem'}>Xác nhận tạo nhắc nhở</Button>
+            <Button size="lg" icon="check_circle" onClick={onConfirm} lockedReason={lock('assistant.act')}>Xác nhận tạo nhắc nhở</Button>
             <Button variant="ghost" size="lg" onClick={onCancel} className="hover:text-status-error-text">Hủy đề xuất</Button>
           </div>
         )}
@@ -218,7 +220,7 @@ export function ActionProposal({ m, canEdit, onConfirm, onCancel, onUndo, onChan
             <span className="flex items-center gap-1.5"><Icon name="check_circle" size={18} fill />Đã thêm vào Lịch &amp; Nhắc nhở</span>
             <span className="flex items-center gap-1">
               <Link to="/lich-nhac-nho"><Button variant="subtle" size="xs" icon="calendar_today" className="text-text-primary">Xem trong Lịch</Button></Link>
-              <Button variant="ghost" size="xs" icon="undo" onClick={onUndo} lockedReason={canEdit ? undefined : 'Bạn chỉ có quyền xem'}>Hoàn tác</Button>
+              <Button variant="ghost" size="xs" icon="undo" onClick={onUndo} lockedReason={lock('assistant.act')}>Hoàn tác</Button>
             </span>
           </div>
         )}

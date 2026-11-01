@@ -5,10 +5,10 @@ import { useWorkspace } from '../context/WorkspaceContext'
 
 /** Dev page: shows PageHeader + FilterBar + Drawer inside the shell (compare with the Stitch W8 screen). */
 export default function ShellDemoPage() {
-  const { canEdit, role, setRole, aiStatus, setAiStatus } = useWorkspace()
+  const { role, setRole, aiStatus, setAiStatus, lock: lockFor } = useWorkspace()
   const [view, setView] = useState<BoardView>('kanban')
   const [mine, setMine] = useState(true)
-  const lock = canEdit ? undefined : 'Bạn chỉ có quyền xem'
+  const lock = lockFor('task.edit')
   return (
     <>
       <PageHeader

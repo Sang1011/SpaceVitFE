@@ -6,7 +6,7 @@ import { recordingList, type RecordingListItem } from '../../mocks/recording'
 
 /** Danh sách ghi âm và tải lên (giả lập). Viewer không tải lên được. */
 export default function RecordingsPage() {
-  const { canEdit, setRole } = useWorkspace()
+  const { canEdit, setRole, lock } = useWorkspace()
   const [params] = useSearchParams()
   const [items, setItems] = useState<RecordingListItem[]>(recordingList)
   const [over, setOver] = useState(false)
@@ -43,7 +43,7 @@ export default function RecordingsPage() {
           <h1 className="font-section-title text-section-title text-text-primary">Ghi âm</h1>
           <p className="font-body-default text-body-default text-text-secondary">Tải ghi âm lên để AI chép lời và đề xuất việc cần làm.</p>
         </div>
-        <Button icon="upload" onClick={() => input.current?.click()} lockedReason={canEdit ? undefined : 'Bạn chỉ có quyền xem'}>Tải ghi âm lên</Button>
+        <Button icon="upload" onClick={() => input.current?.click()} lockedReason={lock('recording.create')}>Tải ghi âm lên</Button>
         <input ref={input} type="file" accept="audio/*" className="sr-only" aria-label="Chọn tệp ghi âm" onChange={(e) => add(e.target.files)} />
       </header>
 

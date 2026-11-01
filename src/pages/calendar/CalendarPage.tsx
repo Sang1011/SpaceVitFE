@@ -51,7 +51,7 @@ function Chip({ e, selected, onOpen }: { e: CalEvent; selected: boolean; onOpen:
 
 /** Lịch & Nhắc nhở: Tháng / Tuần / Danh sách, lọc Của tôi / Cả nhóm, Xong và Hoãn trên nhắc nhở. */
 export default function CalendarPage() {
-  const { canEdit, setRole } = useWorkspace()
+  const { setRole, lock } = useWorkspace()
   const { toast } = useToast()
   const [params] = useSearchParams()
   const [view, setView] = useState<View>('month')
@@ -59,7 +59,7 @@ export default function CalendarPage() {
   const [scope, setScope] = useState<'me' | 'team'>('me')
   const [events, setEvents] = useState<CalEvent[]>(params.get('empty') === '1' ? [] : calEvents)
   const [selId, setSelId] = useState<string | null>(null)
-  const locked = canEdit ? undefined : 'Bạn chỉ có quyền xem'
+  const locked = lock('reminder.edit')
 
   useEffect(() => {
     if (params.get('role') === 'viewer') setRole('viewer')

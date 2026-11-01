@@ -11,14 +11,14 @@ const items = [
 
 /** Nút "Tạo mới" mở danh sách những thứ có thể tạo, thay cho nút chưa nối hành động. */
 export function CreateMenu() {
-  const { canEdit } = useWorkspace()
+  const { lock } = useWorkspace()
   const navigate = useNavigate()
   return (
     <Popover
       label="Tạo mới"
       panelClassName="w-56"
       trigger={(p) => (
-        <Button {...p} icon="add" className="px-3.5 max-sm:px-2" iconRight="expand_more" lockedReason={canEdit ? undefined : 'Bạn chỉ có quyền xem'}>
+        <Button {...p} icon="add" className="px-3.5 max-sm:px-2" iconRight="expand_more" lockedReason={lock('note.edit')}>
           <span className="max-sm:sr-only">Tạo mới</span>
         </Button>
       )}
