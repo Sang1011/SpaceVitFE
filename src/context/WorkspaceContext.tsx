@@ -6,7 +6,11 @@ import type { AiStatus, Member, Space, SpaceRole, UserProfile } from '../types/w
 interface WorkspaceCtx {
   space: Space
   user: UserProfile
+  /** Thành viên đang hoạt động (không gồm lời mời chưa chấp nhận). */
   members: Member[]
+  /** Toàn bộ danh sách, gồm cả lời mời đang chờ. */
+  roster: Member[]
+  setRoster: (next: Member[] | ((prev: Member[]) => Member[])) => void
   counts: typeof mockCounts
   /** Role of the current user in the current space; drives read-only UI. */
   role: SpaceRole
@@ -32,14 +36,17 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     const r = typeof window === 'undefined' ? null : new URLSearchParams(window.location.search).get('role')
     return r === 'owner' || r === 'editor' || r === 'viewer' ? r : null
   })
-  const memberRole = mockMembers.find((m) => m.initials === mockUser.initials)?.role ?? mockSpace.role
+  const [roster, setRoster] = useState<Member[]>(mockMembers)
+  const memberRole = roster.find((m) => m.initials === mockUser.initials && m.status !== 'invited')?.role ?? mockSpace.role
   const role: SpaceRole = override ?? memberRole
   const [aiStatus, setAiStatus] = useState<AiStatus>('online')
   const value = useMemo<WorkspaceCtx>(
     () => ({
       space: { ...mockSpace, role },
       user: mockUser,
-      members: mockMembers,
+      members: roster.filter((m) => m.status !== 'invited'),
+      roster,
+      setRoster,
       counts: mockCounts,
       role,
       canEdit: roleCan(role, 'note.edit'),
@@ -51,7 +58,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       setRole: (r) => setRole(r),
       setAiStatus,
     }),
-    [role, aiStatus],
+    [role, aiStatus, roster],
   )
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

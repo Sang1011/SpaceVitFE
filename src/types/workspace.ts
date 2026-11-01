@@ -17,4 +17,10 @@ export interface Member {
   initials: string
   name: string
   role?: SpaceRole
+  id?: string
+  email?: string
+  /** active: đã là thành viên; invited: đã mời, chưa chấp nhận. */
+  status?: 'active' | 'invited'
+  /** Hoạt động gần nhất hoặc thời điểm gửi lời mời (đã định dạng). */
+  lastActive?: string
 }

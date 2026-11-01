@@ -10,6 +10,7 @@ import MyTasksPage from './pages/my-tasks/MyTasksPage'
 import DocumentsPage from './pages/documents/DocumentsPage'
 import DocumentDetailPage from './pages/documents/DocumentDetailPage'
 import AssistantPage from './pages/assistant/AssistantPage'
+import MembersPage from './pages/members/MembersPage'
 import NotesPage from './pages/notes/NotesPage'
 import BoardPage from './pages/board/BoardPage'
 import InvitePage from './pages/auth/InvitePage'
@@ -56,6 +57,7 @@ export default function App() {
               <Route path="/lich-nhac-nho" element={<CalendarPage />} />
               <Route path="/tro-ly-ai" element={<AssistantPage />} />
               <Route path="/cong-viec-cua-toi" element={<MyTasksPage />} />
+              <Route path="/khong-gian/thanh-vien" element={<MembersPage />} />
             </Route>
             </Route>
 
