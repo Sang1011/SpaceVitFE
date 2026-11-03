@@ -1,6 +1,6 @@
 import { useId, useState, type ComponentProps, type ReactNode } from 'react'
 import { cn } from '../../lib/cn'
-import { Icon } from '../../components/ui'
+import { Icon } from './Icon'
 
 export interface FieldProps extends Omit<ComponentProps<'input'>, 'id'> {
   label: string
@@ -52,6 +52,52 @@ export function Field({ label, error, hint, type = 'text', className, ...props }
           <span>{error ?? hint}</span>
         </p>
       )}
+    </div>
+  )
+}
+
+export interface FieldAreaProps extends Omit<ComponentProps<'textarea'>, 'id'> {
+  label: string
+  error?: string
+  hint?: ReactNode
+}
+
+/** Ô nhập nhiều dòng, cùng kiểu với Field. Có maxLength thì hiện bộ đếm ký tự. */
+export function FieldArea({ label, error, hint, className, value, maxLength, ...props }: FieldAreaProps) {
+  const id = useId()
+  const descId = `${id}-d`
+  const hasDesc = !!error || !!hint
+  const len = typeof value === 'string' ? value.length : 0
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="block font-body-medium text-body-medium text-text-primary">
+        {label}
+      </label>
+      <textarea
+        id={id}
+        value={value}
+        maxLength={maxLength}
+        rows={3}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={hasDesc ? descId : undefined}
+        className={cn(
+          'w-full resize-y rounded-lg border bg-surface-variant px-3 py-2 font-body-default text-body-default text-text-primary placeholder:text-text-secondary focus:bg-surface focus:outline-none focus:ring-2 focus:ring-brand disabled:cursor-not-allowed disabled:opacity-70',
+          error ? 'border-status-error' : 'border-border-strong',
+          className,
+        )}
+        {...props}
+      />
+      <div className="flex items-start justify-between gap-2">
+        {hasDesc ? (
+          <p id={descId} role={error ? 'alert' : undefined} className={cn('flex items-center gap-1 font-caption text-caption', error ? 'text-status-error-text' : 'text-text-secondary')}>
+            {error && <Icon name="error" size={16} className="shrink-0" />}
+            <span>{error ?? hint}</span>
+          </p>
+        ) : (
+          <span />
+        )}
+        {maxLength && <span aria-hidden="true" className="shrink-0 font-caption text-caption text-text-secondary">{len}/{maxLength}</span>}
+      </div>
     </div>
   )
 }

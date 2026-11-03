@@ -1,8 +1,7 @@
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/auth-context'
 import { useWorkspace } from '../../context/WorkspaceContext'
 import { Avatar, Icon, Popover, PopoverLabel, ThemePicker } from '../ui'
-
-const soon = 'flex w-full cursor-not-allowed items-center gap-2.5 rounded-lg px-2 py-2 text-left font-body-medium text-body-medium text-text-secondary opacity-70'
 
 /** Menu tài khoản ở góc phải thanh trên: thông tin người dùng, chọn giao diện sáng/tối. */
 export function UserMenu() {
@@ -34,11 +33,10 @@ export function UserMenu() {
       <PopoverLabel className="pt-1">Giao diện</PopoverLabel>
       <ThemePicker />
       <div className="my-1 h-px bg-border" />
-      <button type="button" disabled className={soon}>
+      <Link to="/ho-so" data-popover-close className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left font-body-medium text-body-medium text-text-primary outline-none transition-colors hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-brand">
         <Icon name="person" size={20} />
         <span className="flex-1">Hồ sơ</span>
-        <span className="font-caption text-caption">Sắp có</span>
-      </button>
+      </Link>
       <button type="button" data-popover-close onClick={signOut} className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left font-body-medium text-body-medium text-text-primary outline-none transition-colors hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-brand">
         <Icon name="logout" size={20} />
         <span className="flex-1">Đăng xuất</span>

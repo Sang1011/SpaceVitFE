@@ -1,9 +1,8 @@
 import { useRef, useState, type FormEvent } from 'react'
-import { Button, Dialog } from '../../components/ui'
+import { Button, Dialog, Field } from '../../components/ui'
 import { isEmail } from '../../lib/validate'
 import { roleDescription, roleLabel } from '../../lib/permissions'
 import type { SpaceRole } from '../../types/workspace'
-import { Field } from '../auth/Field'
 
 const roles: SpaceRole[] = ['editor', 'viewer', 'owner']
 

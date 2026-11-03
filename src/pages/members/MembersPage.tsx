@@ -24,7 +24,7 @@ export default function MembersPage() {
   const [inviteOpen, setInviteOpen] = useState(() => params.get('moi') === '1' && canManage)
   const [pending, setPending] = useState<Pending | null>(null)
 
-  const isSelf = (m: Member) => m.status !== 'invited' && m.initials === user.initials
+  const isSelf = (m: Member) => m.status !== 'invited' && m.id === user.id
   const roleOf = (m: Member): SpaceRole => (isSelf(m) ? role : m.role ?? 'viewer')
   const active = roster.filter((m) => m.status !== 'invited')
   const invited = roster.filter((m) => m.status === 'invited')

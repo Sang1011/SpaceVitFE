@@ -1,9 +1,17 @@
 import { myTasksTotal } from './overview'
-import type { Member, Space, UserProfile } from '../types/workspace'
+import type { Member, NotificationPrefs, Space, UserProfile } from '../types/workspace'
 
-export const mockSpace: Space = { id: 'alpha', name: 'Dự án Alpha', role: 'owner' }
+export const mockSpaces: Space[] = [
+  { id: 'alpha', name: 'Dự án Alpha', role: 'owner', description: 'Không gian chung của nhóm sản phẩm.', language: 'vi', memberCount: 6 },
+  { id: 'q4', name: 'Kế hoạch Q4', role: 'viewer', description: 'Theo dõi mục tiêu và tiến độ quý 4.', language: 'vi', memberCount: 4 },
+  { id: 'mkt', name: 'Chiến dịch Marketing', role: 'editor', description: '', language: 'vi', memberCount: 9 },
+  { id: 'zeta', name: 'Dự án Zeta', role: 'owner', description: 'Đã kết thúc năm 2025.', language: 'en', archived: true, memberCount: 3 },
+]
+
+export const mockPrefs: NotificationPrefs = { assigned: true, comments: true, reminders: true, processing: false }
 
 export const mockUser: UserProfile = {
+  id: 'm4',
   name: 'Nguyễn Minh Anh',
   title: 'Trưởng nhóm sản phẩm',
   initials: 'NA',

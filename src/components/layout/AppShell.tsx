@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { useWorkspace } from '../../context/WorkspaceContext'
 import { DOCK_QUERY } from '../../lib/breakpoints'
 import { useMediaQuery } from '../../lib/useMediaQuery'
+import { Banner, Button } from '../ui'
 import { AssistantPanel } from './AssistantPanel'
 import { pageLabelFor } from './nav'
 import { useAssistantChat } from './useAssistantChat'
@@ -15,7 +16,7 @@ import { TopBar } from './TopBar'
  * Khi có panel gắn cạnh nội dung (Trợ lý hoặc panel chi tiết) và màn đủ rộng, Sidebar thu về dạng icon.
  */
 export function AppShell() {
-  const { space, aiStatus } = useWorkspace()
+  const { space, aiStatus, archived, role, setArchived } = useWorkspace()
   const { pathname } = useLocation()
   const [assistantOpen, setAssistantOpen] = useState(false)
   const docks = useDockCount()
@@ -50,6 +51,15 @@ export function AppShell() {
         <TopBar breadcrumb={[space.name, pageLabelFor(pathname)]} compact={compact} mobile={mobile} onMenu={() => setMenuOpen(true)} />
         <div className="flex flex-1 items-start pt-16">
           <main className="relative min-h-[calc(100vh-64px)] min-w-0 flex-1 bg-background p-4 md:p-8">
+            {archived && (
+              <Banner
+                className="mb-space-md"
+                tone="warning"
+                icon="inventory_2"
+                title={`${space.name} đã lưu trữ, chỉ xem được`}
+                actions={role === 'owner' ? <Button size="xs" variant="outline" onClick={() => setArchived(false)}>Khôi phục</Button> : undefined}
+              />
+            )}
             <Outlet />
           </main>
           <AssistantPanel open={assistantOpen} onClose={closeAssistant} chat={chat} />

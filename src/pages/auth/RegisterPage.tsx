@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
-import { Button, Checkbox, useToast } from '../../components/ui'
+import { Button, Checkbox, useToast, Field } from '../../components/ui'
 import { useAuth } from '../../context/auth-context'
 import { isEmail, passwordError, safeNext } from '../../lib/validate'
 import { AuthLayout } from './AuthLayout'
-import { Field } from './Field'
 
 const link = 'font-body-medium text-body-medium text-brand underline-offset-2 hover:underline focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand'
 

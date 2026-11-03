@@ -18,7 +18,10 @@ export const myTasksNav: NavEntry = { to: '/cong-viec-cua-toi', icon: 'check_cir
 
 export const membersNav: NavEntry = { to: '/khong-gian/thanh-vien', icon: 'group', label: 'Thành viên' }
 
-const allNav: NavEntry[] = [...mainNav, assistantNav, myTasksNav, membersNav]
+export const settingsNav: NavEntry = { to: '/khong-gian/cai-dat', icon: 'settings', label: 'Cài đặt không gian' }
+export const profileNav: NavEntry = { to: '/ho-so', icon: 'person', label: 'Hồ sơ' }
+
+const allNav: NavEntry[] = [...mainNav, assistantNav, myTasksNav, membersNav, settingsNav, profileNav]
 
 /** Tên trang theo đường dẫn, dùng cho breadcrumb và ngữ cảnh của Trợ lý. */
 export function pageLabelFor(pathname: string): string {
