@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { PageHeader } from '../../components/layout'
 import { Avatar, Badge, Banner, Button, ConfirmDialog, Icon, SearchInput, Tabs, useToast } from '../../components/ui'
+import { useActivity } from '../../context/activity-context'
 import { useWorkspace } from '../../context/WorkspaceContext'
 import { roleDescription, roleLabel } from '../../lib/permissions'
 import type { Member, SpaceRole } from '../../types/workspace'
@@ -18,6 +19,7 @@ const rowGrid = 'md:grid md:grid-cols-[minmax(0,2fr)_150px_minmax(0,1.2fr)_auto]
 export default function MembersPage() {
   const { roster, setRoster, role, user, space, canManage, lock } = useWorkspace()
   const { toast } = useToast()
+  const { log } = useActivity()
   const [params] = useSearchParams()
   const [filter, setFilter] = useState<Filter>('all')
   const [query, setQuery] = useState('')
@@ -41,6 +43,7 @@ export default function MembersPage() {
   const setRole = (m: Member, to: SpaceRole) => {
     const from = m.role ?? 'viewer'
     setRoster((l) => l.map((x) => (x.id === m.id ? { ...x, role: to } : x)))
+    log({ kind: 'member', text: `đã đổi vai trò của ${m.name} thành ${roleLabel[to]}` })
     toast({
       message: `Đã đổi vai trò của ${m.name} thành ${roleLabel[to]}.`,
       tone: 'success',
@@ -57,6 +60,7 @@ export default function MembersPage() {
   const removeRow = (m: Member, message: string) => {
     const idx = roster.findIndex((x) => x.id === m.id)
     setRoster((l) => l.filter((x) => x.id !== m.id))
+    log({ kind: 'member', text: m.status === 'invited' ? `đã thu hồi lời mời của ${m.email}` : `đã gỡ ${m.name} khỏi không gian` })
     toast({
       message,
       tone: 'info',
@@ -84,6 +88,7 @@ export default function MembersPage() {
       ...emails.map((e, i) => ({ id: `i-${stamp}-${i}`, initials: e.slice(0, 2).toUpperCase(), name: e, email: e, role: to, status: 'invited' as const, lastActive: 'Vừa gửi' })),
     ])
     setFilter('all')
+    log({ kind: 'member', text: `đã mời ${emails.join(', ')} làm ${roleLabel[to]}` })
     toast({ message: emails.length === 1 ? `Đã mời ${emails[0]} với vai trò ${roleLabel[to]}.` : `Đã mời ${emails.length} người với vai trò ${roleLabel[to]}.`, tone: 'success' })
   }
 

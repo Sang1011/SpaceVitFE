@@ -29,7 +29,7 @@ export function SidePanel({ open, onClose, title, header, footer, children, defa
   const docked = useMediaQuery(DOCK_QUERY)
   const [width, setWidth] = useState(clamp(defaultWidth))
   const drag = useRef<{ x: number; w: number } | null>(null)
-  const panel = useRef<HTMLElement>(null)
+  const panel = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!open) return
@@ -66,8 +66,10 @@ export function SidePanel({ open, onClose, title, header, footer, children, defa
 
   if (!open) return null
 
+  // aside không được mang role dialog, nên dạng popup dùng div.
+  const Root = (docked ? 'aside' : 'div') as 'div'
   const body = (
-    <aside
+    <Root
       ref={panel}
       tabIndex={-1}
       role={docked ? 'complementary' : 'dialog'}
@@ -102,7 +104,7 @@ export function SidePanel({ open, onClose, title, header, footer, children, defa
       </div>
       <div className="flex-1 space-y-space-lg overflow-y-auto p-space-lg">{children}</div>
       {footer && <div className="flex shrink-0 items-center justify-between gap-space-sm border-t border-border p-space-md">{footer}</div>}
-    </aside>
+    </Root>
   )
 
   if (docked) return body

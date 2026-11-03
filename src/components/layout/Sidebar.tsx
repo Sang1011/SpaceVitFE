@@ -92,6 +92,13 @@ export function SpaceSwitcher({ compact }: { compact?: boolean }) {
           >
             Cài đặt không gian
           </Link>
+          <Link
+            to="/khong-gian/hoat-dong"
+            data-popover-close
+            className="flex w-full items-center justify-center gap-1.5 rounded-lg px-2 py-2 font-body-medium text-body-medium text-brand outline-none hover:bg-surface-variant focus-visible:ring-2 focus-visible:ring-brand"
+          >
+            Hoạt động
+          </Link>
         </div>
       </Popover>
       <CreateSpaceDialog open={creating} onClose={() => setCreating(false)} />

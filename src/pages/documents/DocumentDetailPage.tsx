@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { CommentThread } from '../../components/domain'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { Badge, Button, Icon, StatusChip, useToast } from '../../components/ui'
 import { useWorkspace } from '../../context/WorkspaceContext'
@@ -136,6 +137,11 @@ export default function DocumentDetailPage() {
           </div>
         </section>
       </div>
+
+      <section aria-labelledby="doc-comments-h" className="mt-space-md space-y-space-sm rounded-xl bg-surface p-space-md shadow-sm">
+        <h2 id="doc-comments-h" className="font-card-title text-card-title text-text-primary">Bình luận</h2>
+        <CommentThread resource={{ kind: 'document', id: doc.id, title: doc.name, href: `/tai-lieu/${doc.id}` }} />
+      </section>
     </div>
   )
 }

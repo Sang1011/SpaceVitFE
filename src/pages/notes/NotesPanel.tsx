@@ -1,10 +1,11 @@
-import { useState, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useWorkspace } from '../../context/WorkspaceContext'
-import { AiSuggestionCard, type SuggestionPatch } from '../../components/domain'
+import { useComments } from '../../context/activity-context'
+import type { CommentItem, ResourceRef } from '../../types/activity'
+import { AiSuggestionCard, CommentThread, type SuggestionPatch } from '../../components/domain'
 import { Avatar, Badge, Button, Checkbox, Icon, PriorityDot, SidePanel, Tabs } from '../../components/ui'
 import type { RecGhost } from '../../mocks/recording'
-import { noteVersions, sidePanel as d, type NoteBlock, type NoteComment } from '../../mocks/notes'
+import { noteVersions, sidePanel as d, type NoteBlock } from '../../mocks/notes'
 
 export type PanelTab = 'tasks' | 'links' | 'toc' | 'comments' | 'history'
 
@@ -35,8 +36,8 @@ export interface NotesPanelProps {
   onChangeSuggestion: (id: string, p: SuggestionPatch) => void
   onConfirm: (ids: string[]) => void
   onDismiss: (ids: string[]) => void
-  comments: NoteComment[]
-  onComment: (text: string) => void
+  resource: ResourceRef
+  commentSeed: CommentItem[]
   onRestore: (id: string) => void
   readOnly: boolean
 }
@@ -44,14 +45,13 @@ export interface NotesPanelProps {
 /** Panel chi tiết của ghi chú (D4): việc đề xuất, liên kết, mục lục, bình luận, lịch sử. */
 export function NotesPanel(p: NotesPanelProps) {
   const navigate = useNavigate()
-  const { canComment } = useWorkspace()
-  const [draft, setDraft] = useState('')
+  const commentCount = useComments(p.resource, p.commentSeed).length
   const selected = p.suggestions.filter((s) => s.checked)
   const items = [
     ...(p.suggestions.length > 0 && !p.readOnly ? [{ key: 'tasks', label: 'Việc', badge: String(p.suggestions.length) }] : []),
     { key: 'links', label: 'Liên kết' },
     { key: 'toc', label: 'Mục lục' },
-    { key: 'comments', label: 'Bình luận', badge: String(p.comments.length) },
+    { key: 'comments', label: 'Bình luận', badge: String(commentCount) },
     { key: 'history', label: 'Lịch sử' },
   ]
   const tab = items.some((i) => i.key === p.tab) ? p.tab : 'links'
@@ -161,40 +161,7 @@ export function NotesPanel(p: NotesPanelProps) {
         </nav>
       )}
 
-      {tab === 'comments' && (
-        <div className="space-y-space-md">
-          <ul className="space-y-space-md">
-            {p.comments.map((c) => (
-              <li key={c.id} className="flex gap-2">
-                <Avatar initials={c.initials} size={7} tone="neutral" />
-                <div className="min-w-0 flex-1 rounded-xl bg-surface-variant/60 p-2.5">
-                  <p className="font-caption text-caption text-text-secondary"><span className="font-semibold text-text-primary">{c.author}</span> · {c.time}</p>
-                  <p className="mt-0.5 font-body-default text-body-default text-text-primary">{c.text}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              if (!draft.trim()) return
-              p.onComment(draft.trim())
-              setDraft('')
-            }}
-            className="flex gap-2"
-          >
-            <input
-              value={draft}
-              disabled={!canComment}
-              onChange={(e) => setDraft(e.target.value)}
-              aria-label="Viết bình luận"
-              placeholder={canComment ? 'Viết bình luận...' : 'Bạn không có quyền bình luận'}
-              className="h-9 min-w-0 flex-1 rounded-lg bg-surface-variant px-3 font-body-default text-body-default text-text-primary outline-none placeholder:text-text-secondary focus:ring-2 focus:ring-brand disabled:cursor-not-allowed"
-            />
-            <Button type="submit" size="md" disabled={!canComment || !draft.trim()}>Gửi</Button>
-          </form>
-        </div>
-      )}
+      {tab === 'comments' && <CommentThread resource={p.resource} seed={p.commentSeed} />}
 
       {tab === 'history' && (
         <ol className="space-y-2">

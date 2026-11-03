@@ -4,6 +4,7 @@ import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, useSensor, useS
 import { EmptyState } from '../../components/domain'
 import { FilterBar, PageHeader, useDock, type BoardView, type FilterChip } from '../../components/layout'
 import { Banner, Button, ConfirmDialog, Icon, Skeleton, SkeletonGroup, useToast } from '../../components/ui'
+import { useActivity } from '../../context/activity-context'
 import { useWorkspace } from '../../context/WorkspaceContext'
 import { boardColumns, getTaskDetail, statusByColumn } from '../../mocks/board'
 import type { BoardColumnData, BoardTask, ColumnKey } from '../../types/board'
@@ -26,6 +27,7 @@ export default function BoardPage() {
   const [params, setParams] = useSearchParams()
   const navigate = useNavigate()
   const { toast } = useToast()
+  const { log } = useActivity()
   const [columns, setColumns] = useState<BoardColumnData[]>(boardColumns)
   const [descriptions, setDescriptions] = useState<Record<string, string>>({})
   const [activeId, setActiveId] = useState<string | null>(null)
@@ -156,7 +158,10 @@ export default function BoardPage() {
     const to = e.over?.id as ColumnKey | undefined
     setActiveId(null)
     setOverCol(null)
-    if (to) moveTask(id, to)
+    if (!to) return
+    const found = findTask(id)
+    if (found && found.column !== to) log({ kind: 'task', text: `đã chuyển việc sang ${statusByColumn[to]}:`, target: { label: found.task.title, href: `/bang-cong-viec?task=${id}` } })
+    moveTask(id, to)
   }
 
   const addTask = (col: ColumnKey) => {
@@ -165,6 +170,7 @@ export default function BoardPage() {
     const task: BoardTask = { id, title: 'Việc mới', priority: 'medium', labels: [], assignee: { initials: user.initials, name: user.name, tone: 'container' } }
     setColumns((cols) => cols.map((c) => (c.key === col ? { ...c, tasks: [...c.tasks, task] } : c)))
     setNewTaskId(id)
+    log({ kind: 'task', text: 'đã tạo một việc mới', target: { label: task.title, href: `/bang-cong-viec?task=${id}` } })
     openTask(id)
   }
 
@@ -184,6 +190,7 @@ export default function BoardPage() {
     const from = findTask(id)?.column
     if (!from || from === to) return
     moveTask(id, to)
+    log({ kind: 'task', text: `đã chuyển việc sang ${statusByColumn[to]}:`, target: { label: findTask(id)?.task.title ?? 'Việc', href: `/bang-cong-viec?task=${id}` } })
     toast({ message: `Đã chuyển sang "${statusByColumn[to]}"`, action: { label: 'Hoàn tác', onClick: () => moveTask(id, from) } })
   }
 
@@ -195,6 +202,7 @@ export default function BoardPage() {
     const index = col.tasks.findIndex((t) => t.id === found.task.id)
     setColumns((cols) => cols.map((c) => (c.key === found.column ? { ...c, tasks: c.tasks.filter((t) => t.id !== found.task.id) } : c)))
     closeTask()
+    log({ kind: 'task', text: `đã xóa việc "${found.task.title}"` })
     toast({
       message: 'Đã xóa 1 việc',
       action: {

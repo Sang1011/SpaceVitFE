@@ -8,7 +8,7 @@ export const mockSpaces: Space[] = [
   { id: 'zeta', name: 'Dự án Zeta', role: 'owner', description: 'Đã kết thúc năm 2025.', language: 'en', archived: true, memberCount: 3 },
 ]
 
-export const mockPrefs: NotificationPrefs = { assigned: true, comments: true, reminders: true, processing: false }
+export const mockPrefs: NotificationPrefs = { assigned: true, comments: true, reminders: true, processing: true }
 
 export const mockUser: UserProfile = {
   id: 'm4',

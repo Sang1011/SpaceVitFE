@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHeader } from '../../components/layout'
 import { Badge, Banner, Button, ConfirmDialog, Field, FieldArea, useToast } from '../../components/ui'
+import { useActivity } from '../../context/activity-context'
 import { useWorkspace } from '../../context/WorkspaceContext'
 import { lockedReasonFor, roleLabel } from '../../lib/permissions'
 import type { RecordingLanguage } from '../../types/workspace'
@@ -17,6 +18,7 @@ const card = 'rounded-2xl border border-border bg-surface p-space-lg shadow-sm'
 export default function SettingsPage() {
   const { space, role, archived, roster, user, lock, updateSpace, setArchived, leaveSpace } = useWorkspace()
   const { toast } = useToast()
+  const { log } = useActivity()
   const navigate = useNavigate()
   const isOwner = role === 'owner'
   const editLock = archived ? 'Không gian đã lưu trữ' : lockedReasonFor(role, 'space.settings')
@@ -46,6 +48,7 @@ export default function SettingsPage() {
     }
     setError(undefined)
     updateSpace({ name: n, description: description.trim(), language })
+    log({ kind: 'space', text: n !== space.name ? `đã đổi tên không gian thành ${n}` : 'đã cập nhật cài đặt không gian' })
     setName(n)
     toast({ message: 'Đã lưu cài đặt không gian.', tone: 'success' })
   }
@@ -57,10 +60,17 @@ export default function SettingsPage() {
     setError(undefined)
   }
 
+  const restore = () => {
+    setArchived(false)
+    log({ kind: 'space', text: 'đã khôi phục không gian' })
+    toast({ message: `Đã khôi phục ${space.name}.`, tone: 'success' })
+  }
+
   const doArchive = () => {
     setConfirm(null)
     setArchived(true)
-    toast({ message: `Đã lưu trữ ${space.name}. Không gian chuyển sang chỉ xem.`, tone: 'info', action: { label: 'Hoàn tác', onClick: () => setArchived(false) } })
+    log({ kind: 'space', text: 'đã lưu trữ không gian' })
+    toast({ message: `Đã lưu trữ ${space.name}. Không gian chuyển sang chỉ xem.`, tone: 'info', action: { label: 'Hoàn tác', onClick: restore } })
   }
 
   const doLeave = () => {
@@ -81,7 +91,7 @@ export default function SettingsPage() {
             description="Mọi người chỉ xem được, không ai sửa hay thêm nội dung."
             actions={
               isOwner ? (
-                <Button size="xs" variant="outline" onClick={() => { setArchived(false); toast({ message: `Đã khôi phục ${space.name}.`, tone: 'success' }) }}>
+                <Button size="xs" variant="outline" onClick={() => { restore() }}>
                   Khôi phục
                 </Button>
               ) : undefined
@@ -127,7 +137,7 @@ export default function SettingsPage() {
               </p>
             </div>
             {archived ? (
-              <Button variant="outline" size="md" lockedReason={isOwner ? undefined : lockedReasonFor(role, 'space.settings')} onClick={() => { setArchived(false); toast({ message: `Đã khôi phục ${space.name}.`, tone: 'success' }) }}>
+              <Button variant="outline" size="md" lockedReason={isOwner ? undefined : lockedReasonFor(role, 'space.settings')} onClick={() => { restore() }}>
                 Khôi phục
               </Button>
             ) : (

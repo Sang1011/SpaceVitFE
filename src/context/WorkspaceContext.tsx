@@ -73,8 +73,8 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const memberRole = selfOf(roster, user.id)?.role ?? current.role
   const role: SpaceRole = override ?? memberRole
   const archived = !!current.archived
-  // Space đã lưu trữ chỉ xem được, dù vai trò là gì.
-  const effective: SpaceRole = archived ? 'viewer' : role
+  // Space đã lưu trữ chỉ xem được (kể cả bình luận), dù vai trò là gì.
+  const allow = useCallback((a: SpaceAction) => (archived ? a === 'view' : roleCan(role, a)), [archived, role])
 
   const setRoster = useCallback(
     (next: RosterUpdate) => {
@@ -97,11 +97,11 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       counts: mockCounts,
       role,
       archived,
-      canEdit: roleCan(effective, 'note.edit'),
-      canManage: roleCan(effective, 'member.manage'),
-      canComment: roleCan(effective, 'comment'),
-      can: (a) => roleCan(effective, a),
-      lock: (a) => (archived && !roleCan(effective, a) ? 'Không gian đã lưu trữ' : lockedReasonFor(effective, a)),
+      canEdit: allow('note.edit'),
+      canManage: allow('member.manage'),
+      canComment: allow('comment'),
+      can: allow,
+      lock: (a) => (allow(a) ? undefined : archived ? 'Không gian đã lưu trữ' : lockedReasonFor(role, a)),
       aiStatus,
       prefs,
       setPrefs: (p) => setPrefsState((s) => ({ ...s, ...p })),
@@ -137,7 +137,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         setRosters((all) => Object.fromEntries(Object.entries(all).map(([k, r]) => [k, r.map((m) => (m.id === user.id ? { ...m, name, initials } : m))])))
       },
     }),
-    [current, memberRole, spaces, user, roster, setRoster, role, archived, effective, aiStatus, prefs, spaceList],
+    [current, memberRole, spaces, user, roster, setRoster, role, archived, allow, aiStatus, prefs, spaceList],
   )
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

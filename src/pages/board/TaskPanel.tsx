@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { Avatar, Badge, Button, Checkbox, Icon, IconButton, Popover, SidePanel, useToast } from '../../components/ui'
 import type { Priority } from '../../components/ui'
+import { CommentThread } from '../../components/domain'
+import { useComments } from '../../context/activity-context'
+import type { CommentItem, ResourceRef } from '../../types/activity'
 import { cn } from '../../lib/cn'
 import { priorityLabelVi } from '../../lib/terms'
 import { statusByColumn } from '../../mocks/board'
-import type { ColumnKey, TaskChecklistItem, TaskComment, TaskDetail } from '../../types/board'
+import type { ColumnKey, TaskChecklistItem, TaskDetail } from '../../types/board'
 
 export interface TaskPatch {
   title?: string
@@ -52,20 +55,8 @@ function Checklist({ items, readOnly }: { items: TaskChecklistItem[]; readOnly?:
   )
 }
 
-function Comment({ c }: { c: TaskComment }) {
-  return (
-    <div className="flex items-start gap-space-sm">
-      <Avatar initials={c.author.initials} tone={c.author.tone} size={8} className="font-bold" />
-      <div className="flex-1 space-y-1 rounded-xl bg-surface-variant p-space-sm text-[13px]">
-        <div className="flex items-center justify-between">
-          <span className="font-card-title text-card-title text-[12px] text-text-primary">{c.authorLabel}</span>
-          <span className="font-caption text-caption text-[11px] text-text-secondary">{c.time}</span>
-        </div>
-        <p className="font-body-default text-body-default leading-normal text-text-primary">{c.text}</p>
-      </div>
-    </div>
-  )
-}
+const resourceOf = (d: TaskDetail): ResourceRef => ({ kind: 'task', id: d.code, title: d.title, href: '/bang-cong-viec' })
+const seedOf = (d: TaskDetail): CommentItem[] => d.comments.map((c, i) => ({ id: `s${i}`, author: c.authorLabel, initials: c.author.initials, time: c.time, text: c.text }))
 
 const prios: Priority[] = ['urgent', 'high', 'medium', 'low']
 const statusKeys = Object.keys(statusByColumn) as ColumnKey[]
@@ -73,7 +64,7 @@ const statusKeys = Object.keys(statusByColumn) as ColumnKey[]
 /** Panel chi tiết việc, gắn cạnh bảng (D4). Tự động lưu (D5): không có nút Lưu. */
 export function TaskPanel({ detail, status, priority, readOnly, focusTitle, onChange, onMove, onDelete, onOpenSource, onClose }: TaskPanelProps) {
   const { toast } = useToast()
-  const [comment, setComment] = useState('')
+  const commentCount = useComments(resourceOf(detail), seedOf(detail)).length
   const [save, setSave] = useState<SaveState>('idle')
   const [files, setFiles] = useState(detail.attachments)
   const [showHistory, setShowHistory] = useState(false)
@@ -298,33 +289,11 @@ export function TaskPanel({ detail, status, priority, readOnly, focusTitle, onCh
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <h2 className="font-card-title text-card-title text-[15px] text-text-primary">Trao đổi</h2>
-            <Badge>{detail.comments.length}</Badge>
+            <Badge>{commentCount}</Badge>
           </div>
           <span className="font-caption text-caption text-text-secondary">{detail.lastActivity}</span>
         </div>
-        <div className="space-y-space-md">
-          {detail.comments.map((c) => (
-            <Comment key={c.time} c={c} />
-          ))}
-        </div>
-        {!readOnly && (
-          <div className="flex items-start gap-space-sm pt-2">
-            <Avatar initials="NA" tone="container" size={8} className="font-bold" />
-            <div className="relative flex-1 overflow-hidden rounded-xl border border-border bg-surface focus-within:ring-2 focus-within:ring-brand">
-              <textarea
-                rows={2}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                aria-label="Viết bình luận"
-                placeholder="Viết bình luận hoặc gắn thẻ @thành viên..."
-                className="w-full resize-none bg-transparent p-2.5 font-body-default text-body-default text-[13px] text-text-primary placeholder:text-text-secondary focus:outline-none"
-              />
-              <div className="flex items-center justify-end border-t border-border/40 bg-surface-variant/50 px-2.5 py-1.5">
-                <Button size="xs" disabled={!comment.trim()} onClick={() => setComment('')}>Gửi</Button>
-              </div>
-            </div>
-          </div>
-        )}
+        <CommentThread resource={resourceOf(detail)} seed={seedOf(detail)} label="Trao đổi" />
       </section>
 
       <section className="border-t border-border pt-2">

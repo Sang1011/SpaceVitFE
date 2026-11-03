@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { useWorkspace } from '../../context/WorkspaceContext'
 import { cn } from '../../lib/cn'
 import { Button, IconButton, Kbd, SearchInput } from '../ui'
 import { CreateMenu } from './CreateMenu'
 import { Logo } from './Logo'
 import { MemberMenu } from './MemberMenu'
+import { NotificationMenu } from './NotificationMenu'
 import { useShell } from './shell-context'
 import { UserMenu } from './UserMenu'
 
@@ -19,7 +19,6 @@ export interface TopBarProps {
 
 export function TopBar({ breadcrumb, compact, mobile, onMenu }: TopBarProps) {
   const [searchOpen, setSearchOpen] = useState(false)
-  const { counts } = useWorkspace()
   const { assistantOpen, toggleAssistant } = useShell()
   const search = useRef<HTMLInputElement>(null)
 
@@ -71,7 +70,7 @@ export function TopBar({ breadcrumb, compact, mobile, onMenu }: TopBarProps) {
           />
         )}
         <span className="hidden md:inline-flex"><MemberMenu /></span>
-        <span className="hidden sm:inline-flex"><IconButton icon="notifications" label="Thông báo" variant="soft" badgeDot={counts.hasUnreadNotifications} /></span>
+        <NotificationMenu />
         <Button variant="ai" icon="auto_awesome" aria-pressed={assistantOpen} onClick={toggleAssistant} className="max-sm:px-2">
           <span className="max-sm:sr-only">Trợ lý</span>
         </Button>

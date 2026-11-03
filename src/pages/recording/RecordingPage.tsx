@@ -4,6 +4,7 @@ import type { SuggestionPatch } from '../../components/domain'
 import { Banner, Button, useToast } from '../../components/ui'
 import { useWorkspace } from '../../context/WorkspaceContext'
 import { recGhosts, recStatuses, recordingList, startSec, type RecGhost, type RecLanguage, type RecStatus } from '../../mocks/recording'
+import { CommentThread } from '../../components/domain'
 import { AudioPlayer } from './AudioPlayer'
 import { InsightsPanel } from './InsightsPanel'
 import { ProcessingSummary } from './ProcessingSummary'
@@ -180,6 +181,10 @@ export default function RecordingPage() {
             readOnly={!canEdit}
             lockedReason={locked}
           />
+          <section aria-labelledby="rec-comments-h" className="mt-space-md space-y-space-sm rounded-xl bg-surface p-space-md shadow-sm">
+            <h2 id="rec-comments-h" className="font-card-title text-card-title text-text-primary">Bình luận</h2>
+            <CommentThread resource={{ kind: 'recording', id: id ?? 'demo', title: recordingList.find((r) => r.id === id)?.title ?? 'Ghi âm', href: `/ghi-am/${id ?? 'demo'}` }} />
+          </section>
         </div>
       </div>
     </div>

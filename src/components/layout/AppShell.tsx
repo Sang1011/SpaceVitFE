@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+import { useActivity } from '../../context/activity-context'
 import { useWorkspace } from '../../context/WorkspaceContext'
 import { DOCK_QUERY } from '../../lib/breakpoints'
 import { useMediaQuery } from '../../lib/useMediaQuery'
@@ -17,6 +18,7 @@ import { TopBar } from './TopBar'
  */
 export function AppShell() {
   const { space, aiStatus, archived, role, setArchived } = useWorkspace()
+  const { log } = useActivity()
   const { pathname } = useLocation()
   const [assistantOpen, setAssistantOpen] = useState(false)
   const docks = useDockCount()
@@ -57,7 +59,7 @@ export function AppShell() {
                 tone="warning"
                 icon="inventory_2"
                 title={`${space.name} đã lưu trữ, chỉ xem được`}
-                actions={role === 'owner' ? <Button size="xs" variant="outline" onClick={() => setArchived(false)}>Khôi phục</Button> : undefined}
+                actions={role === 'owner' ? <Button size="xs" variant="outline" onClick={() => { setArchived(false); log({ kind: 'space', text: 'đã khôi phục không gian' }) }}>Khôi phục</Button> : undefined}
               />
             )}
             <Outlet />

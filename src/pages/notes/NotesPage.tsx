@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import type { SuggestionPatch } from '../../components/domain'
 import { Avatar, Banner, Button, Icon, useToast } from '../../components/ui'
 import { useWorkspace } from '../../context/WorkspaceContext'
-import { aiActions, diagram, mainNote, noteComments, noteSuggestions, notesList, presetRewrite, retryRewrite, type NoteBlock, type NoteComment } from '../../mocks/notes'
+import { aiActions, diagram, mainNote, noteComments, noteSuggestions, notesList, presetRewrite, retryRewrite, type NoteBlock } from '../../mocks/notes'
 import type { RecGhost } from '../../mocks/recording'
 import { cn } from '../../lib/cn'
 import { useMediaQuery } from '../../lib/useMediaQuery'
@@ -37,7 +37,6 @@ export default function NotesPage() {
   const [diff, setDiff] = useState<Diff | null>(params.get('diff') === '1' ? { key: 'rewrite', suggestion: presetRewrite, tries: 0 } : null)
   const [savedAt, setSavedAt] = useState('14:35')
   const [suggestions, setSuggestions] = useState<RecGhost[]>(noteSuggestions)
-  const [comments, setComments] = useState<NoteComment[]>(noteComments)
   const scroller = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -216,7 +215,7 @@ export default function NotesPage() {
                     <span className="font-card-title text-card-title text-[14px] text-text-primary">3. Mô hình luồng dữ liệu</span>
                     <span className="font-label-mono text-label-mono text-[11px] text-text-secondary">{diagram.file}</span>
                   </div>
-                  <div className="space-y-1 overflow-x-auto rounded-lg bg-surface-variant p-3 font-label-mono text-label-mono text-[12px]">
+                  <div tabIndex={0} role="region" aria-label="Sơ đồ luồng dữ liệu, cuộn ngang nếu bị cắt" className="space-y-1 overflow-x-auto rounded-lg bg-surface-variant p-3 font-label-mono text-label-mono text-[12px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
                     {diagram.lines.map((l) => (
                       <p key={l.text} className={cn('whitespace-nowrap', l.tone === 'ai' && 'text-ai-accent', l.tone === 'muted' && 'pl-4 text-text-secondary', l.tone === 'brand' && 'text-brand')}>{l.text}</p>
                     ))}
@@ -259,8 +258,8 @@ export default function NotesPage() {
           onChangeSuggestion={patchSuggestion}
           onConfirm={(ids) => removeSuggestions(ids, 'tạo')}
           onDismiss={(ids) => removeSuggestions(ids, 'bỏ qua')}
-          comments={comments}
-          onComment={(text) => setComments((c) => [...c, { id: `c${c.length + 1}`, author: user.name, initials: user.initials, time: 'Vừa xong', text }])}
+          resource={{ kind: 'note', id: activeId, title: activeMeta.title, href: '/ghi-chu?panel=comments' }}
+          commentSeed={activeId === 'n1' ? noteComments : []}
           onRestore={(id) => toast({ message: `Đã khôi phục phiên bản ${id} (mẫu)` })}
           readOnly={!canEdit}
         />

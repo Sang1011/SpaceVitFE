@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from './components/layout'
+import { ActivityProvider } from './context/ActivityProvider'
 import { AuthProvider } from './context/AuthProvider'
 import { WorkspaceProvider } from './context/WorkspaceContext'
 import OverviewPage from './pages/overview/OverviewPage'
@@ -10,6 +11,7 @@ import MyTasksPage from './pages/my-tasks/MyTasksPage'
 import DocumentsPage from './pages/documents/DocumentsPage'
 import DocumentDetailPage from './pages/documents/DocumentDetailPage'
 import AssistantPage from './pages/assistant/AssistantPage'
+import ActivityPage from './pages/activity/ActivityPage'
 import MembersPage from './pages/members/MembersPage'
 import ProfilePage from './pages/profile/ProfilePage'
 import SettingsPage from './pages/settings/SettingsPage'
@@ -33,6 +35,7 @@ export default function App() {
       <AuthProvider>
       <WorkspaceProvider>
         <ToastProvider>
+          <ActivityProvider>
           <BrowserRouter>
           <Routes>
             {/* dev pages, outside the shell */}
@@ -61,6 +64,7 @@ export default function App() {
               <Route path="/cong-viec-cua-toi" element={<MyTasksPage />} />
               <Route path="/khong-gian/thanh-vien" element={<MembersPage />} />
               <Route path="/khong-gian/cai-dat" element={<SettingsPage />} />
+              <Route path="/khong-gian/hoat-dong" element={<ActivityPage />} />
               <Route path="/ho-so" element={<ProfilePage />} />
             </Route>
             </Route>
@@ -68,6 +72,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/tong-quan" replace />} />
           </Routes>
         </BrowserRouter>
+          </ActivityProvider>
       </ToastProvider>
       </WorkspaceProvider>
       </AuthProvider>
