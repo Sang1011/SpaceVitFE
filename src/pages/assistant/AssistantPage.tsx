@@ -162,7 +162,7 @@ export default function AssistantPage() {
             </label>
             <Button variant="subtle" size="md" icon="add_comment" onClick={newConversation} className="lg:hidden"><span className="sr-only sm:not-sr-only">Mới</span></Button>
             <Button variant="subtle" size="md" icon="delete_sweep" disabled={messages.length === 0} onClick={() => setConfirmClear(true)} className="hover:text-status-error-text">
-              <span className="hidden sm:inline">Xóa hội thoại</span>
+              <span className="sr-only sm:not-sr-only">Xóa hội thoại</span>
             </Button>
           </div>
         </header>
